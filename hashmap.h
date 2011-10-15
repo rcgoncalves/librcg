@@ -10,9 +10,7 @@
  * To use this hash table you have to provide functions for the data type to be
  * used with the hash table.  The following functions are needed:
  *
- * @htmlonly <a id="func" name="func"></a>@endhtmlonly
- *
- * <ul>
+ * <ul id="func">
  * <li><tt>int hash(void *)</tt>
  *
  * Função de hash (usada pelas funções <tt>@ref hashInsert</tt>, <tt>@ref
