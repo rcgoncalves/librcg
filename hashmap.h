@@ -1,23 +1,26 @@
 /**
- * Implementação de uma tabela de hash.
- * Esta biblioteca disponibiliza um conjunto de funções que permitem manipular
- *   uma tabela de hash.
+ * Implementation of a hash table.
  *
- * Sempre que existam colisões os elementos são inseridos numa lista ligada.
- *   Quando o número de elementos atingir uma determinada percentagem do número
- *   de posições da tabela, a sua dimensão é aumentada.
+ * This library provides functions to create an manage a hash table.
  *
- * Na criação de uma tabela de hash é necessário especificar algumas funções que
- *   manipulam os tipos de dados utilizados. De seguida descrevem-se essas
- *   funções e apresentam-se exemplos (para o tipo @c char*):
+ * Collisions are handled using having a list for each buckets.  When the
+ * number of elements is greater than a specified ratio of the number of buckets
+ * the hash table is resized.
+ *
+ * To use this hash table you have to provide functions for the data type to be
+ * used with the hash table.  The following functions are needed:
  *
  * @htmlonly <a id="func" name="func"></a>@endhtmlonly
  *
- * @li <tt>int hash(void *)</tt>\n
- *    Função de hash (usada pelas funções <tt>@ref hashInsert</tt>, <tt>@ref
- *    hashRemove</tt> e <tt>@ref hashGet</tt>). Associa a uma chave um número
- *    único.
-@code
+ * <ul>
+ * <li><tt>int hash(void *)</tt>
+ *
+ * Função de hash (usada pelas funções <tt>@ref hashInsert</tt>, <tt>@ref
+ * hashRemove</tt> e <tt>@ref hashGet</tt>). Associa a uma chave um número
+ * único.
+ *
+ * E.g.:
+<code>
 int hash(void* key)
 {
   int i,x;
@@ -26,27 +29,31 @@ int hash(void* key)
 
   return x;
 }
-@endcode
- *
+</code>
+ * </li>
  * 
- * @li <tt>int keyEquals(void* key1,void* key2)</tt>\n
- *     Função que compara duas chaves (usada pelas funções <tt>@ref hashInsert
- *     </tt>, <tt>@ref hashRemove</tt> e <tt>@ref hashGet</tt>); deve devolver
- *     0 se @a key1 igual a @a key2 e um valor diferente de 0 caso contrário;
- *     pode ser alterada através da função <tt>@ref hashSetEquals</tt>.
-@code
+ * <li><tt>int keyEquals(void* key1,void* key2)</tt>
+ *
+ * Função que compara duas chaves (usada pelas funções <tt>@ref hashInsert</tt>,
+ * <tt>@ref hashRemove</tt> e <tt>@ref hashGet</tt>); deve devolver
+ * 0 se @a key1 igual a @a key2 e um valor diferente de 0 caso contrário;
+ * pode ser alterada através da função <tt>@ref hashSetEquals</tt>.
+ *
+ * E.g.:
+<code>
 int keyEquals(void* key1,void* key2)
 {
   if(key1&&key2) return srtcmp((char*)key1,(char*)key2);
   else return 1;
 }
-@endcode
- *
+</code>
+ * </li>
+ * </ul>
  * 
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file hashmap.h
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 10/2011
  */
 #ifndef _HASHMAP_
 #define _HASHMAP_
