@@ -1,34 +1,33 @@
 /**
- * Implementação de um array dinâmico.
+ * Implementation of a dynamic array.
  *
  * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
  * @file array.c
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 10/2011
  */
 #include <stdlib.h>
 #include "array.h"
 
 Array newArray(int size)
 {
-  Array array;
-
-  array=(Array)malloc(sizeof(SArray));
-
-  if(array)
+  Array array=NULL;
+  if(size>0)
   {
-    array->capacity=size;
-    array->size=0;
-    array->array=(void**)calloc(size,sizeof(void*));
-
-    if(array->array) return array;
-    else
+    array=(Array)malloc(sizeof(SArray));
+    if(array)
     {
-      free(array);
-      return NULL;
+      array->capacity=size;
+      array->size=0;
+      array->array=(void**)calloc(size,sizeof(void*));
+      if(!array->array)
+      {
+        free(array);
+	array=NULL;
+      }
     }
   }
-  else return NULL;
+  return array;
 }
 
 //##############################################################################
@@ -41,30 +40,30 @@ void arrayDelete(Array array)
 
 //##############################################################################
 
-int arrayInsert(Array array,int index,void* inf,int replace)
+int arrayInsert(Array array,int index,void* elem,int replace)
 {
-  if(index<0) return 2;
+  int result=0;
+  if(index<0) result=2;
   else if(index>=array->capacity)
   {
-    if(!arrayResize(array,index+1))
+    if(arrayResize(array,index+1)) result=3;
+    else
     {
       array->size++;
-      array->array[index]=inf;
-      return 0;
+      array->array[index]=elem;
     }
-    else return 3;
   }
   else if(array->array[index])
   {
-    if(replace) array->array[index]=inf;
-    return 1;
+    if(replace) array->array[index]=elem;
+    result=1;
   }
   else 
   {
     array->size++;
-    array->array[index]=inf;
-    return 0;
+    array->array[index]=elem;
   }
+  return result;
 }
 
 //##############################################################################
