@@ -22,7 +22,7 @@
  */
 typedef struct sArray
 {
-  ///Current capacity of this.
+  ///Current capacity of this array.
   int capacity;
   ///Number of element of this array.
   int size;
@@ -35,17 +35,18 @@ typedef struct sArray
  */
 typedef SArray* Array;
 
-//##############################################################################
+//==============================================================================
 
 /**
  * Creates an empty array, with the specified initial capacity.
  *
  * The initial capacity must be a positive number.
  *
- * @param size the initial capacity of the array.
+ * @param size the initial capacity of the array
  *
  * @return
- * the new array, or <tt>NULL</tt> if an error occurs.
+ * <tt>NULL</tt> if an error occurred\n
+ * the new array otherwise
  */
 Array newArray(int size);
 
@@ -53,10 +54,10 @@ Array newArray(int size);
  * Deletes an array.
  *
  * @attention
- * This only frees the memory used by the array.  It does not free the memory
- * used by elements the array contains.
+ * This function only frees the memory used by the array.  It does not free the
+ * memory used by elements the array contains.
  *
- * @param array the array to be deleted.
+ * @param array the array to be deleted
  */
 void arrayDelete(Array array);
 
@@ -75,16 +76,16 @@ void arrayDelete(Array array);
  * If the new element is <tt>NULL</tt>, it will not be inserted, and the size
  * of the array will not change.
  *
- * @param array   the array.
- * @param index   the index at which the new element is to be inserted.
- * @param elem    the element to be inserted.
- * @param replace specify whether old value will be replaced.
+ * @param array   the array
+ * @param index   the index at which the new element is to be inserted
+ * @param elem    the element to be inserted
+ * @param replace specify whether old value will be replaced
  *
  * @return
- * 0 if the new element was inserted.\n
- * 1 if the position was already filled.\n
- * 2 if the position was not valid.\n
- * 3 if was not possible increase the array size.
+ * 0 if the new element was inserted\n
+ * 1 if the position was already filled\n
+ * 2 if the position was not valid\n
+ * 3 if it was not possible increase the array size
  */
 int arrayInsert(Array array,int index,void* elem,int replace);
 
@@ -97,14 +98,14 @@ int arrayInsert(Array array,int index,void* elem,int replace);
  * @attention
  * This function does not free the memory used by the removed element.
  *
- * @param array the array.
- * @param index the index of the element to be removed.
+ * @param array the array
+ * @param index the index of the element to be removed
  * @param elem  pointer were the removed element should be put (or
- * <tt>NULL</tt>).
+ * <tt>NULL</tt>)
  *
  * @return
- * 0 if an element was removed from the specified position.\n
- * 1 otherwise.
+ * 0 if an element was removed from the specified position\n
+ * 1 otherwise
  */
 int arrayRemove(Array array,int index,void** elem);
 
@@ -118,13 +119,13 @@ int arrayRemove(Array array,int index,void** elem);
  * This function puts at <tt>elem</tt> a pointer to the element at the specified
  * position.  Changes to this element will affect the element in the array.
  *
- * @param array the array.
- * @param index the index of the element to provide.
- * @param elem  pointer were the element at the specified position will be put.
+ * @param array the array
+ * @param index the index of the element to be provided
+ * @param elem  pointer were the element at the specified position will be put
  *
  * @return
- * 0 if there is was an element at the specified position.\n
- * 1 otherwise.
+ * 0 if there was an element at the specified position\n
+ * 1 otherwise
  */
 int arrayAt(Array array,int index,void** inf);
 
@@ -133,33 +134,33 @@ int arrayAt(Array array,int index,void** inf);
  *
  * The new capacity must be greater than the current one.
  *
- * @param array the array.
- * @param size  the new capacity.
+ * @param array the array
+ * @param size  the new capacity
  *
  * @return
- * 0 if the capacity of the array was increased.\n
- * 1 if it was not possible change the array capacity.\n
- * 2 if the new capacity was less than the current one.
+ * 0 if the capacity of the array was increased\n
+ * 1 if it was not possible change the array capacity\n
+ * 2 if the new capacity was less than the current one
  */
 int arrayResize(Array array,int size);
 
 /**
  * Returns the size of an array.
  *
- * @param array the array.
+ * @param array the array
  *
  * @return
- * the size of the array.
+ * the size of the array
  */
 int arraySize(Array array);
 
 /**
  * Return the capacity of an array.
  *
- * @param array the array.
+ * @param array the array
  *
  * @return
- * the capacity of the array.
+ * the capacity of the array
  */
 int arrayCapacity(Array array);
 
@@ -168,12 +169,12 @@ int arrayCapacity(Array array);
  *
  * The function to be applied must be of type <tt>void fun(void*)</tt>.
  *
- * @param array the array.
- * @param fun   the function to be applied.
+ * @param array the array
+ * @param fun   the function to be applied
  *
  * @return
- * 0 if the array is empty.\n
- * 1 otherwise.
+ * 0 if the array was empty\n
+ * 1 otherwise
  */
 int arrayMap(Array array,void(*fun)(void*));
 
@@ -182,10 +183,11 @@ int arrayMap(Array array,void(*fun)(void*));
  *
  * @see Iterator
  *
- * @param array the array.
+ * @param array the array
  *
  * @return
- * the iterator, or <tt>NULL</tt> if an error occurs.
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator arrayIterator(Array array);
 
