@@ -54,14 +54,15 @@ HashMap newHash(int size,float factor,int(*hash)(void*),
     int(*equals)(void*,void*))
 {
   HashMap hmap=NULL;
-  if(hash&&equals&&factor>=0.1)
+  if(hash&&equals)
   {
-    HashMap hmap=(HashMap)malloc(sizeof(SHashMap));
+    hmap=(HashMap)malloc(sizeof(SHashMap));
     if(hmap)
     {
       hmap->size=0;
       hmap->length=size;
-      hmap->factor=factor;
+      if(factor<0.1) hmap->factor=0.1;
+      else hmap->factor=factor;
       hmap->hash=*hash;
       hmap->equals=*equals;
       hmap->elems=(HashNode*)calloc(size,sizeof(HashNode));
@@ -128,10 +129,10 @@ void hashDelete(HashMap hmap)
 
 int hashInsert(HashMap hmap,void* key,void* value,int replace)
 {
-  int h,stop,result=0;
+  int h,stop,error,result=0;
   HashNode aux;
-  if(hmap->size>hmap->factor*hmap->length) result=reHash(hmap);
-  if(!result)
+  if(hmap->size>hmap->factor*hmap->length) error=reHash(hmap);
+  if(!error)
   {
     h=(hmap->hash)(key)%hmap->length;
     for(aux=hmap->elems[h],stop=0;aux&&!stop;aux=aux->next)

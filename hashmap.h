@@ -107,7 +107,8 @@ typedef SHashMap* HashMap;
  *
  * The load factor (<tt>factor</tt>) specifies when the number of buckets should
  * be increased (it will be increased when <tt>size > factor*length</tt>).  The
- * load factor must be greater than or equal to 0.1.
+ * load factor must be greater than or equal to 0.1 (otherwise value 0.1 will be
+ * used).
  *
  * @param size   the initial number of buckets
  * @param factor the load factor
