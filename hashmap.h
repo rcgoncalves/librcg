@@ -13,38 +13,38 @@
  * <ul id="func">
  * <li><tt>int hash(void *)</tt>
  *
- * Função de hash (usada pelas funções <tt>@ref hashInsert</tt>, <tt>@ref
- * hashRemove</tt> e <tt>@ref hashGet</tt>). Associa a uma chave um número
- * único.
+ * Hash function (used by <tt>@ref hashInsert</tt>, <tt>@ref hashRemove</tt>,
+ * and <tt>@ref hashGet</tt>).  Generates a unique hash to a key.  This function
+ * can be changed using function <tt>@ref hashSetHash</tt>.
  *
  * E.g.:
-<code>
+\code
 int hash(void* key)
 {
   int i,x;
   char* aux=key;
   for(i=0,x=0;i<32&&aux[i]!='\0';x+=aux[i],i++);
-
   return x;
 }
-</code>
+\endcode
  * </li>
  * 
  * <li><tt>int keyEquals(void* key1,void* key2)</tt>
  *
- * Função que compara duas chaves (usada pelas funções <tt>@ref hashInsert</tt>,
- * <tt>@ref hashRemove</tt> e <tt>@ref hashGet</tt>); deve devolver
- * 0 se @a key1 igual a @a key2 e um valor diferente de 0 caso contrário;
- * pode ser alterada através da função <tt>@ref hashSetEquals</tt>.
+ * Compares two keys (used by <tt>@ref hashInsert</tt>,
+ * <tt>@ref hashRemove</tt>, and <tt>@ref hashGet</tt>). It should return 0 if
+ * <tt>key1</tt> is equal to <tt>key2</tt>, and a value different from 0
+ * otherwise.  This function can be changed using function
+ * <tt>@ref hashSetEquals</tt>.
  *
  * E.g.:
-<code>
+\code
 int keyEquals(void* key1,void* key2)
 {
   if(key1&&key2) return srtcmp((char*)key1,(char*)key2);
-  else return 1;
+  else !(key1==key2);
 }
-</code>
+\endcode
  * </li>
  * </ul>
  * 
@@ -53,76 +53,70 @@ int keyEquals(void* key1,void* key2)
  * @version 3.0
  * @date 10/2011
  */
-#ifndef _HASHMAP_
-#define _HASHMAP_
+#ifndef _HASHMAP_H_
+#define _HASHMAP_H_
 
 #include "iterator.h"
 
 /**
- * Estrutura do nodo de uma tabela de hash.
+ * Hash table node structure.
  */
 typedef struct sHashNode
 {
-  ///Apontador para a chave do nodo.
+  ///Node's key.
   void* key;
-  ///Apontador para o valor associado ao nodo.
+  ///Node's value.
   void* value;
-  ///Apontador para o próximo nodo.
+  ///Next node.
   struct sHashNode*  next;
 }SHashNode;
 
 /**
- * Definição do apontador para os nodos da tabela de hash.
+ * Hash table node definition.
  */
 typedef SHashNode* HashNode;
 
 /**
- * Estrutura de uma tabela de hash.
+ * Hash table structure.
  */
 typedef struct sHashMap
 {
-  ///Função de hash.
+  ///Hash function of this hash table.
   int(*hash)(void*);
-  ///Função que compara duas chaves.
+  ///Comparison function of this hash table.
   int(*equals)(void*,void*);
-  ///Número de elementos contidos na tabela.
+  ///Number of elements of this hash table.
   int size;
-  ///Tamanho do array que constitui a tabela.
+  ///Number of buckets of this hash table.
   int length;
-  ///Factor de "reestruturação" da tabela.
+  ///Load factor.
   float factor;
-  ///Tabela de apontadores.
+  ///Buckets of this hash table.
   HashNode* elems;
 }SHashMap;
 
 /**
- * Definição da tabela de hash.
+ * Hash table definition.
  */
 typedef SHashMap* HashMap;
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Cria uma tabela de hash.
- * Se não for possível criar a tabela devolve NULL.
- * Têm que ser especificadas a função de hash e a função que compara chaves,
- *   caso contrário a tabela não será criada.
- * Estas funções podem ser alteradas a qualquer momento, utilizando as funções
- *   <tt>@ref hashSetHash</tt> e <tt>@ref hashSetEquals</tt>.
+ * Creates a hash table.
  *
- * @htmlonly (Ver <a href=#func>descrição das funções</a>)@endhtmlonly
+ * The load factor (<tt>factor</tt>) specifies when the number of buckets should
+ * be increased (it will be increased when <tt>size > factor*length</tt>).  The
+ * load factor must be greater than or equal to 0.1.
  *
- * É ainda necessário indicar um valor (@a factor) que determina quando a
- *   dimensão da tabela deve ser aumentada; isso acontecerá quando:\n
- *   size>factor*length\n
- * Esta variável terá que ser superior a 0.1.
+ * @param size   the initial number of buckets
+ * @param factor the load factor
+ * @param hash   the hash function
+ * @param equals the comparison function
  *
- * @param size   dimensão inicial da tabela.
- * @param factor factor de "reestruturação" da tabela.
- * @param hash   função de hash.
- * @param equals função que compara duas chaves.
- *
- * @return tabela inicializada ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new hash table otherwise
  */
 HashMap newHash(int size,float factor
                ,int(*hash)(void*)
@@ -130,143 +124,151 @@ HashMap newHash(int size,float factor
                );
 
 /**
- * Altera a função de hash associada a uma tabela.
- * O valor de @a hash não pode ser NULL.
+ * Sets the hash function of a hash table.
  *
- * @param hmap tabela de hash.
- * @param hash nova função.
+ * @param hmap the hash table
+ * @param hash the new hash function
  *
- * @return 1 se @a hash for NULL (não é efectuada qualquer alteração);\n
- *         0 caso contrário.
+ * @return
+ * 1 if <tt>hash</tt> was equal to <tt>NULL</tt> (no change was made)\n
+ * 0 otherwise
  */
 int hashSetHash(HashMap hmap,int(*hash)(void*));
 
 /**
- * Altera a função que compara duas chaves de uma tabela.
- * O valor de @a equals não pode ser NULL.
+ * Sets the comparison function of a hash table.
  *
- * @param hmap   tabela de hash.
- * @param equals nova função.
+ * @param hmap   the hash table
+ * @param equals the new comparison function
  *
- * @return 1 se @a equals for NULL (não é efectuada qualquer alteração);\n
- *         0 caso contrário.
+ * @return 
+ * 1 if <tt>equals</tt> was equal to <tt>NULL</tt> (no change was made)\n
+ * 0 otherwise
  */
 int hashSetEquals(HashMap hmap,int(*equals)(void*,void*));
 
 /**
- * Altera o factor de "reestruturação" da tabela.
- * O novo valor tem que ser maior do 0.1.
+ * Sets the load factor of a hash table.
  *
- * @param hmap   tabela de hash.
- * @param factor novo valor.
+ * The new value must be greater than or equal to 0.1.
  *
- * @return 1 se @a factor for menor do que 0.1;\n
- *         0 caso contrário.
+ * @param hmap   the hash table
+ * @param factor the new load factor
+ *
+ * @return
+ * 1 if <tt>factor</tt> was less than 0.1 (no change was made)\n
+ * 0 otherwise
  */
 int hashSetFactor(HashMap hmap,int factor);
 
 /**
- * Elimina uma tabela de hash.
+ * Deletes an hash table.
  *
- * @attention apenas liberta a memória referente à estrutura da tabela; não
- *            liberta o espaço ocupado pelos elementos nela contidos.
+ * @attention
+ * This function only free the memory used by the hash table.  It does not free
+ * the memory used by elements the hash table contais.
  *
- * @param hmap tabela de hash.
+ * @param hmap the hash table to be deleted
  */
 void hashDelete(HashMap hmap);
 
 /**
- * Insere um par chave/valor numa tabela de hash.
- * Caso a chave já exista, a variável @a replace determina se o valor antigo é
- *   ou não substituído (caso seja 0 não há substituição, caso tenha outro valor
- *   o novo elemento é inserido).
+ * Associates a value to a key in a hash table.
  *
- * @param hmap    tabela de hash.
- * @param key     chave.
- * @param value   valor associado à chave.
- * @param replace variável que determina se elementos já existente são ou não
- *                substituídos.
+ * If the key already had a value, the <tt>replace</tt> argument specifies
+ * whether the new element should be added (it will be added only if
+ * <tt>replace!=0</tt>).
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se a tabela já possuia a chave indicada;\n
- *         2 se não for possível alocar memória para o novo elemento.
+ * @param hmap    the hash table
+ * @param key     the key
+ * @param value   the value to be inserted
+ * @param replace specify whether old value will be replaced
+ *
+ * @return
+ * 0 if the value was inserted\n
+ * 1 if the key already had a value\n
+ * 2 if an error occurred
  */
 int hashInsert(HashMap hmap,void* key,void* value,int replace);
 
 /**
- * Remove um elemento de uma tabela de hash.
- * Permite devolver o valor removido, caso o valor de @a value seja diferente de
- *   NULL.
- * Se a chave não existir ou o elemento não for removido é colocado o valor NULL
- *   em @a value.
+ * Removes the mapping for a key from an hash table.
  *
- * @attention esta função não liberta o espaço ocupado pelo valor associado à
- *            chave; já o espaço ocupado pela chave removida, se @a del for
- *            diferente de NULL, será libertado.
+ * Provides the value of the removed element if the value of <tt>elem</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param hmap  tabela de hash.
- * @param key   chave que queremos remover.
- * @param value endereço onde é colocado o elemento removido (ou NULL).
- * @param del   função que elimina uma chave (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
+ * To free the memory used by its key, you have to provide the argument
+ * <tt>del</tt>.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a chave não existir.
+ * @param hmap  the hash table
+ * @param key   key whose mapping is to be removed
+ * @param value pointer were the removed element should be put (or
+ * <tt>NULL</tt>)
+ * @param del   function to free the memory used by the key (or <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if an element was removed from the specified position\n
+ * 1 otherwise
  */
 int hashRemove(HashMap hmap,void* key,void** value,void(*del)(void*));
 
 /**
- * Procura um elemento numa tabela de hash.
- * Devolve o valor associado a uma chave se ela existir.
- * Se a chave não existir é colocado o valor NULL em @a value.
+ * Provides the mapping for a key from a hash table.
  *
- * @attention esta função coloca em @a value o endereço do valor pretendido;
- *            depois de executar esta função é aconselhável fazer uma cópia do
- *            mesmo e passar a trabalhar com a cópia para que não haja problemas
- *            de partilha de referências.
+ * If there is no mapping for the specified key, it will be put the value
+ * <tt>NULL</tt> at <tt>value</tt>.  However, the <tt>NULL</tt> value may also
+ * say that the mapping was for the specified key was <tt>NULL</tt>.  Check the
+ * returned value in order to know whether the key was in the hash table.
  *
- * @param hmap  tabela de hash.
- * @param key   chave que procuramos.
- * @param value endereço onde é colocado o resultado.
+ * @attention
+ * This function puts at <tt>value</tt> a pointer to the mapping of the
+ * specified key.  Changes to this value will affect the value in the hash
+ * table.
  *
- * @return 0 se o elemento existir;\n
- *         1 se o elemento não existir.
+ * @param hmap  the hash table
+ * @param key   key whose mapping is to be provided
+ * @param value pointer were the mapping value will be put
+ *
+ * @return
+ * 0 if there was a mapping for the specified key\n
+ * 1 otherwise
  */
 int hashGet(HashMap hmap,void* key,void** value);
 
 /**
- * Determina o número de elementos de uma tabela de hash.
- * Devolve o valor do campo @a size da tabela.
+ * Returns the number of elements present in a hash table.
  *
- * @param hmap tabela de hash.
+ * @param hmap the hash table
  *
- * @return número de elementos da tabela.
+ * @return the number of elements present in the hash table
  */
 int hashSize(HashMap hmap);
 
 /**
- * Cria um iterador a partir das chaves de uma tabela de hash.
- * Coloca as referência para as chaves num iterador.
- * Se ocorrer algum erro devolve NULL.
+ * Creates an iterator from the keys of an hash table.
  *
  * @see Iterator
  *
- * @param hmap tabela de hash.
+ * @param hmap the hash map
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator hashKeys(HashMap hmap);
 
 /**
- * Cria um iterador a partir dos valores associados às chaves de uma tabela de
- *   hash.
- * Coloca as referências para os "valores" num iterador.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from the values of an hash table.
  *
  * @see Iterator
  *
- * @param hmap tabela de hash.
+ * @param hmap the hash table
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator hashValues(HashMap hmap);
 
