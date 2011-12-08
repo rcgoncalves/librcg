@@ -1,37 +1,37 @@
 /**
- * Implementação de um iterador.
+ * Implementation of an iterator.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file iterator.c
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 11/2011
  */
 #include <stdlib.h>
 #include "iterator.h"
 
-
 Iterator newIt(int size)
 {
-  Iterator it=(Iterator)malloc(sizeof(SIterator));
-
-  if(it)
+  Iterator it=NULL;
+  if(size>0)
   {
-    it->capacity=size;
-    it->size=0;
-    it->pos=0;
-    it->values=(void**)calloc(size,sizeof(void*));
-
-    if(it->values) return it;
-    else
+    it=(Iterator)malloc(sizeof(SIterator));
+    if(it)
     {
-      free(it);
-      return NULL;
+      it->capacity=size;
+      it->size=0;
+      it->pos=0;
+      it->values=(void**)calloc(size,sizeof(void*));
+      if(!it->values)
+      {
+        free(it);
+        it=NULL;
+      }
     }
   }
-  else return NULL;
+  return it;
 }
 
-//##############################################################################
+//==============================================================================
 
 void itDelete(Iterator it)
 {
@@ -39,37 +39,39 @@ void itDelete(Iterator it)
   free(it);
 }
 
-//##############################################################################
+//==============================================================================
 
 int itAdd(Iterator it,void* val)
 {
-  if(it->capacity==it->size) return 1;
+  int result=0;
+  if(it->capacity==it->size) result=1;
   else
   {
     it->values[it->size]=val;
     it->size++;
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itNext(Iterator it,void** val)
 {
+  int result=0;
   if(it->pos>=it->size)
   {
     *val=NULL;
-    return 1;
+    result=1;
   }
   else
   {
     *val=it->values[it->pos];
     it->pos++;
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itHasNext(Iterator it)
 {
@@ -77,24 +79,25 @@ int itHasNext(Iterator it)
   else return 0;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itPrev(Iterator it,void** val)
 {
+  int result=0;
   if(!it->pos)
   {
     *val=NULL;
-    return 1;
+    result=1;
   }
   else
   {
     it->pos--;
     *val=it->values[it->pos];
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itHasPrev(Iterator it)
 {
@@ -102,38 +105,34 @@ int itHasPrev(Iterator it)
   else return 1;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itAt(Iterator it,int n,void** val)
 {
+  int result=0;
   if(n<0||n>=it->size)
   {
     *val=NULL;
-    return 1;
+    result=1;
   }
-  else
-  {
-    *val=it->values[n];
-    return 0;
-  } 
+  else *val=it->values[n]; 
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itSetPos(Iterator it,int n)
 {
-  int tmp;
-  
-  if(n<0||n>it->size) return(-1);
-  else
+  int result=-1;
+  if(!n<0&&!n>it->size)
   {
-    tmp=it->pos;
+    result=it->pos;
     it->pos=n;
-    return tmp;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int itGetPos(Iterator it)
 {

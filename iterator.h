@@ -1,153 +1,150 @@
 /**
- * Implementação de um iterador.
- * O iterador será um array de apontadores.
- * O campo @a pos de um iterador indica uma posição entre o elemento devolvido
- *   pela função @c itNext e a função @c itPrev.
+ * Implementation of an iterator.
+ * Iterators contain a sequence of pointers to the elements to be iterated.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file iterator.h
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 12/2011
  */
-#ifndef _ITERATOR_
-#define _ITERATOR_
+#ifndef _ITERATOR_H_
+#define _ITERATOR_H_
 
 /**
- * Estrutura do iterador.
+ * Iterator structure.
  */
 typedef struct sIterator
 {
-  ///Dimensão do iterador.
+  ///Capacity of this iterator..
   int capacity;
-  ///Número de elementos.
+  ///Number of elements of this iterator.
   int size;
-  ///Posição actual.
+  ///Current position of this iterator.
   int pos;
-  ///Apontadores para os elementos do iterador.
+  ///Elements of this iterator.
   void** values;
 }SIterator;
 
 /**
- * Definição do iterador
+ * Iterator definition.
  */
 typedef SIterator* Iterator;
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Cria um iterador.
- * Se não for possível criar o iterador devolve NULL.
+ * Creates an iterator.
  *
- * @param size capacidade do iterador.
+ * @param size the capacity
  *
- * @return iterador inicializado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new iterator otherwise
  */
 Iterator newIt(int size);
 
 /**
- * Elimina um iterador.
- * Esta função limita-se a libertar o espaço ocupado pelo array de apontadores e
- *   pela estrutura do iterador.
+ * Deletes an iterator.
  * 
- * @param it iterador.
+ * @param it the iterator to be deleted
  */
 void itDelete(Iterator it);
 
 /**
- * Adiciona um elemento a um iterador.
- * Verifica se a capacidade do iterador já foi atingida, em caso afirmativo o
- *   elemento não é adicionado e é devolvido o valor 1.
+ * Adds an element to an iterator.
+ * In case the iterator is full, the element is not added.
  *
- * @param it  iterador.
- * @param val valor a inserir.
+ * @param it  the iterator
+ * @param val the value to be added
  *
- * @return 0 se o valor for adicionado;\n
- *         1 se o iterador não tiver espaço livre.
+ * @return
+ * 0 if the value was added\n
+ * 1 if the iterator was full
  */
 int itAdd(Iterator it,void* val);
 
 /**
- * Devolve o próximo elemento de um iterador.
- * Devolve o elemento que está imediatamente a seguir a @a pos e incrementa o
- *   seu valor.
- * Caso ocorra algum erro é colocado o valor NULL em @a val.
+ * Provides the next element of an iterator.
  *
- * @param it  iterador.
- * @param val endereço onde será colocado o resultado
+ * @param it  the iterator
+ * @param val pointer were the next element should be put
  *
- * @return 0 se for devolvido um elemento;\n
- *         1 se não existir próximo elemento.
+ * @return
+ * 0 if the next element was provided\n
+ * 1 otherwise
  */
 int itNext(Iterator it,void** val);
 
 /**
- * Verifica se existe "próximo" elemento num iterador.
+ * Checks if there is "next".
  *
- * @param it iterador.
+ * @param it the iterator.
  *
- * @return 1 se existir;\n
- *         0 se não existir.
+ * @return
+ * 1 if there is "next"\n
+ * 0 otherwise
  */
 int itHasNext(Iterator it);
 
 /**
- * Devolve o anterior elemento de um iterador.
- * Devolve o elemento que está imediatamente antes de @a pos e decrementa o seu
- *   valor.
- * Caso ocorra algum erro é colocado o valor NULL em @a val.
+ * Provides the previous element of an iterator.
  *
- * @param it  iterador.
- * @param val endereço onde será colocado o resultado.
+ * @param it  the iterator
+ * @param val pointer were the previous element should be put
  *
- * @return 0 se for devolvido um elemento;\n
- *         1 se não existir próximo elemento.
+ * @return
+ * 0 if the previous element was provided\n
+ * 1 otherwise
  */
 int itPrev(Iterator it,void** val);
 
 /**
- * Verifica se existe elemento "anterior" num iterador.
+ * Checks if there is "previous".
  *
- * @param it iterador.
+ * @param it the iterator.
  *
- * @return 1 se existir;\n
- *         0 se não existir.
+ * @return
+ * 1 if there is "previous"\n
+ * 0 otherwise
  */
 int itHasPrev(Iterator it);
 
 /**
+ * Provides the element at the specified position of an iterator.
  * Verifica qual o elemento numa determinada posição do array de valores de um
  *   iterador.
- * Se o valor de @a index não for válido é colocado o valor NULL em @a val.
  *
- * @param it    iterador.
- * @param index posição pretendida.
- * @param val   local onde será colocado o resultado.
+ * @param it    the iterator
+ * @param index the position
+ * @param elem  pointer were the element at the specified position will be put
  *
- * @return 0 se o elemento existir;\n
- *         1 se o valor de @a index não for válido.
+ * @return
+ * 0 if there was an element at the specified position\n
+ * 1 otherwise
  */
-int itAt(Iterator it,int index,void** val);
+int itAt(Iterator it,int index,void** elem);
 
 /**
- * Altera a posição actual do iterador.
- * É alterado o valor do campo @a pos do iterador (se o valor de @a index for
- *   válido).
+ * Sets the current position of an iterator.
+ * It changes the value of field <tt>pos</tt> of an iterator (if the value og
+ * <tt>n</tt> is valid).
  * 
- * @param it iterador.
- * @param n  novo valor para a posição.
+ * @param it the iterator
+ * @param n  the new position
  *
- * @return -1 se o valor de @a n não for válido;\n
- *         0 caso contrário.
+ * @return
+ * -1 if the value of the new position is invalid\n
+ * the old position otherwise
  */
 int itSetPos(Iterator it,int n);
 
 /**
- * Determina a posição actual do iterador.
- * Devolve o valor do campo @a pos do iterador.
+ * Provides the current position of an iterator.
  *
- * @param it iterador.
+ * @param it the iterator
  *
- * @return posição do iterador.
+ * @return
+ * the current position of the iterator
  */
 int itGetPos(Iterator it);
 
