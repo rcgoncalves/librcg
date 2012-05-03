@@ -9,29 +9,24 @@
 #include <stdlib.h>
 #include "queue.h"
 
-
 Queue newQueue()
 {
   Queue queue=(Queue)malloc(sizeof(SQueue));
-
-  if(!queue) return NULL;
-  else
+  if(queue)
   {
     queue->size=0;
     queue->head=NULL;
     queue->last=NULL;
-    return queue;
   }
+  return queue;
 }
 
-//##############################################################################
+//==============================================================================
 
 void queueDelete(Queue queue)
 {
   QueueNode aux1,aux2;
-    
-  if(!queue->size)
-    free(queue);
+  if(!queue->size) free(queue);
   else
   {
     for(aux1=queue->head;aux1;)
@@ -44,47 +39,44 @@ void queueDelete(Queue queue)
   }
 }
 
-//##############################################################################
+//==============================================================================
 
-int queueInsert(Queue queue,void *inf)
+int queueInsert(Queue queue,void* value)
 {
+  int result=0;
   QueueNode new;
   new=(QueueNode)malloc(sizeof(SQueueNode));
-
   if(new)
   {
-    new->inf=inf;
+    new->value=value;
     new->next=NULL;
-
     if(!queue->size) queue->head=new;
     else queue->last->next=new;
-    
     queue->last=new;
     queue->size++;
-    return 0;
   }
-  else return 1;
+  else result=1;
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int queueRemove(Queue queue,void **inf)
+int queueRemove(Queue queue,void** value)
 {
+  int result=0;
   QueueNode aux;
-  
   if(!queue->size)
   {
-    if(inf) *inf=NULL;
-    return 1;
+    if(value) *value=NULL;
+    result=1;
   }
   else
   {
-    if(inf) *inf=queue->head->inf;
-
+    if(value) *value=queue->head->value;
     if(queue->size==1)
     {
-      queue->last=NULL;
       free(queue->head);
+      queue->last=NULL;
       queue->head=NULL;
     }
     else
@@ -93,67 +85,61 @@ int queueRemove(Queue queue,void **inf)
       queue->head=queue->head->next;
       free(aux);
     }
-
     queue->size--;
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int queueConsult(Queue queue,void **inf)
+int queueConsult(Queue queue,void** value)
 {
+  int result=0;
   if(!queue->size)
   {
-    *inf=NULL;
-    return 1;
+    *value=NULL;
+    result=1;
   }
-  else
-  {
-    *inf=queue->head->inf;
-    return 0;
-  }
+  else *value=queue->head->value;
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int queueSize(Queue queue)
 {
-  return(queue->size);
+  return queue->size;
 }
 
-//##############################################################################
+//==============================================================================
 
 int queueMap(Queue queue,void(*fun)(void*))
 {
+  int result=0;
   QueueNode aux;
-  
-  if(queue->size==0) return 1;
+  if(queue->size==0) result=1;
   else
   {
     for(aux=queue->head;aux;aux=aux->next)
-      fun(aux->inf);
-    
-    return 0;
+      fun(aux->value);
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 Iterator queueIterator(Queue queue)
 {
   int ctrl;
   QueueNode aux;
   Iterator it;
-  
   it=newIt(queue->size);
   for(aux=queue->head,ctrl=0;aux&&!ctrl;aux=aux->next)
-    ctrl=itAdd(it,aux->inf);
-
+    ctrl=itAdd(it,aux->value);
   if(ctrl)
   {
     itDelete(it);
-    return NULL;
+    it=NULL;
   }
-  else return it;
+  return it;
 }

@@ -1,125 +1,129 @@
 /**
- * Implementação de uma queue como lista ligada.
- * Esta biblioteca disponibiliza um conjunto de funções que permitem manipular
- *   uma queue.
+ * Implementation of a queue as linked list.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file queue.h
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
-#ifndef _QUEUE_
-#define _QUEUE_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
 #include "iterator.h"
 
 /**
- * Estrutura do nodo da queue.
+ * Queue node structure.
  */
 typedef struct sQueueNode
 {
-  ///Apontador para a informação do nodo.
-  void *inf;
-  ///Apontador para o nodo seguinte.
-  struct sQueueNode *next;
+  ///Node's value.
+  void* value;
+  ///Next node.
+  struct sQueueNode* next;
 }SQueueNode;
 
 /**
- * Definição do apontador para os nodos da queue.
+ * Queue node definition.
  */
 typedef SQueueNode* QueueNode;
 
 /**
- * Estrutura da queue.
+ * Queue structure.
  */
 typedef struct sQueue
 {
-  ///Número de elementos da queue.
+  ///Number of elements of this queue.
   int size;
   ///Apontador para o início da queue.
+  ///First node.
   QueueNode head;
-  ///Apontador para o fim da queue.
+  ///Last node.
   QueueNode last;
 }SQueue;
 
 /**
- * Definição da queue.
+ * Queue definition.
  */
 typedef SQueue* Queue;
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Cria uma queue.
- * Se não for possível criar a queue devolve NULL.
+ * Creates a queue.
  *
- * @return queue inicializada ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new queue otherwise
  */
 Queue newQueue();
 
 /**
- * Elemina uma queue.
+ * Deletes a queue.
  *
- * @attention apenas liberta a memória ocupada pela estrutura da queue; não
- *            liberta o espaço ocupado pelos elementos nela contidos.
+ * @attention
+ * This function only frees the memory used by the queue.  It does not free the
+ * memory used by elements the queue contains.
  * 
- * @param queue queue.
+ * @param queue the queue to be deleted
  */
 void queueDelete(Queue queue);
 
 /**
- * Insere um elemento numa queue.
- * Verifica se é possível inserir o novo elemento, devolvendo 1 caso não seja
- *   possível.
+ * Inserts an element in a queue.
  *
- * @param queue queue.
- * @param inf   endereço do elemento que queremos inserir.
+ * @param queue the queue
+ * @param value the value to be inserted
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se não for possível alocar espaço para o novo elemento.
+ * @return
+ * 0 if the new value was inserted\n
+ * 1 if it was not possible to insert the new element
  */
-int queueInsert(Queue queue,void *inf);
+int queueInsert(Queue queue,void* value);
 
 /**
- * Remove um elemento de uma queue.
- * Permite devolver o elemento removido, caso o valor de @a inf seja diferente
- *   de NULL.
- * Se a queue estiver vazia é colocado o valor NULL em @a inf.\n
+ * Removes an element from a queue.
  *
- * @attention esta função não liberta o espaço ocupado pelo elemento removido.
+ * Provides the value of the removed element if the value of <tt>value</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param queue queue.
- * @param inf   endereço onde é colocado o elemento removido (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a queue estiver vazia.
+ * @param queue the queue
+ * @param value pointer where the removed value should be put (or
+ * <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if an element was removed\n
+ * 1 if the queue was empty
  */
-int queueRemove(Queue queue,void** inf);
+int queueRemove(Queue queue,void** value);
 
 /**
- * Verifica qual o elemento na cabeça de uma queue.
- * Se a queue estiver vazia é colocado o valor NULL em @a inf.
+ * Provides the value at the head of a queue.
  *
- * @attention esta função coloca em @a inf o endereço da informação que está na
- *            cabeça da queue; depois de executar esta função é aconselhável
- *            fazer uma cópia da informação e passar a trabalhar com a cópia
- *            para que não haja problemas de partilha de referências.
+ * If the queue is empty, it will be put the value <tt>NULL</tt> at
+ * <tt>value</tt>.
+ * 
+ * @attention
+ * This function puts at <tt>value</tt> a pointer to the value at the first
+ * position.  Changes to this value will affect the element in the list.
  *
- * @param queue queue.
- * @param inf   endereço onde é colocado o resultado.
+ * @param queue the queue
+ * @param value pointer where the value at the last position will be put
  *
  * @return 0 se a queue não estiver vazia;\n
  *         1 se a queue estiver vazia.
  */
-int queueConsult(Queue queue,void **inf);
+int queueConsult(Queue queue,void** value);
 
-/**
- * Determina o tamanho de uma queue.
- * Devolve o valor do campo @a size da queue.
+/** 
+ * Returns the size of a queue.
  *
- * @param queue queue.
+ * @param queue the queue
  *
- * @return número de elementos da queue.
+ * @return
+ * the size of the queue
  */
 int queueSize(Queue queue);
 
@@ -133,17 +137,30 @@ int queueSize(Queue queue);
  * @return 0 se a queue não estiver vazia;\n
  *         1 se a queue estiver vazia.
  */
+/**
+ * Applies a function to the elements of a queue.
+ *
+ * The function to be applied must be of type <tt>void fun(void*)</tt>.
+ *
+ * @param queue the queue
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the queue was not empty\n
+ * 1 otherwise
+ */
 int queueMap(Queue queue,void(*fun)(void*));
 
 /**
- * Cria um iterador a partir da queue.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from a queue.
  *
  * @see Iterator
  *
- * @param queue queue.
+ * @param queu the queue
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator queueIterator(Queue queue);
 
