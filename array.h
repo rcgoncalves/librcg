@@ -26,7 +26,7 @@ typedef struct sArray
   int capacity;
   ///Number of element of this array.
   int size;
-  ///Array of pointers to this array elements.
+  ///Array of pointers to this array's elements.
   void** array;
 }SArray;
 
@@ -173,7 +173,7 @@ int arrayCapacity(Array array);
  * @param fun   the function to be applied
  *
  * @return
- * 0 if the array was empty\n
+ * 0 if the array was not empty\n
  * 1 otherwise
  */
 int arrayMap(Array array,void(*fun)(void*));
