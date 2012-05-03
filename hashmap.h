@@ -205,7 +205,7 @@ int hashInsert(HashMap hmap,void* key,void* value,int replace);
  *
  * @param hmap  the hash table
  * @param key   key whose mapping is to be removed
- * @param value pointer were the removed element should be put (or
+ * @param value pointer where the removed element should be put (or
  * <tt>NULL</tt>)
  * @param del   function to free the memory used by the key (or <tt>NULL</tt>)
  *
@@ -230,7 +230,7 @@ int hashRemove(HashMap hmap,void* key,void** value,void(*del)(void*));
  *
  * @param hmap  the hash table
  * @param key   key whose mapping is to be provided
- * @param value pointer were the mapping value will be put
+ * @param value pointer where the mapping value will be put
  *
  * @return
  * 0 if there was a mapping for the specified key\n

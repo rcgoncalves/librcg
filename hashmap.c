@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include "hashmap.h"
 
-
 /**
  * Resizes a hash table.
  * 
