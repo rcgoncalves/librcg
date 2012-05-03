@@ -32,7 +32,6 @@ void listDelete(List list)
   {
     for(this=list->first,next=this->next;next;this=next,next=next->next)
       free(this);
-
     free(this);
     free(list);
   }

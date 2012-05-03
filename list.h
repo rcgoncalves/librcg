@@ -21,9 +21,9 @@ typedef struct sListNode
   ///Node's value.
   void* value;
   ///Previous node.
-  struct sListNode *prev;
+  struct sListNode* prev;
   ///Next node.
-  struct sListNode *next;
+  struct sListNode* next;
 }SListNode;
 
 /**
@@ -56,7 +56,7 @@ typedef SList* List;
  *
  * @return
  * <tt>NULL</tt> if an error occurred\n
- * the new array otherwise
+ * the new list otherwise
  */
 List newList();
 
@@ -122,7 +122,7 @@ int listInsertAt(List list,int index,void* value);
  * This function does not free the memory used by the removed element.
  *
  * @param list  the list.
- * @param value pointer were the removed value should be put (or
+ * @param value pointer where the removed value should be put (or
  * <tt>NULL</tt>)
  *
  * @return
@@ -141,7 +141,7 @@ int listRemoveFst(List list,void** value);
  * This function does not free the memory used by the removed element.
  *
  * @param list  the list.
- * @param value pointer were the removed value should be put (or
+ * @param value pointer where the removed value should be put (or
  * <tt>NULL</tt>)
  *
  * @return
@@ -162,7 +162,7 @@ int listRemoveLst(List list,void** value);
  *
  * @param list  the list.
  * @param index the index of the element to be removed
- * @param value pointer were the removed value should be put (or
+ * @param value pointer where the removed value should be put (or
  * <tt>NULL</tt>)
  *
  * @return
@@ -175,14 +175,14 @@ int listRemoveAt(List list,int index,void** value);
  * Provides the value at the first position of a list.
  *
  * If the list is empty, it will be put the value <tt>NULL</tt> at
- * <tt>elem</tt>.
+ * <tt>value</tt>.
  * 
  * @attention
- * This function puts at <tt>elem</tt> a pointer to the value at the first
+ * This function puts at <tt>value</tt> a pointer to the value at the first
  * position.  Changes to this value will affect the element in the list.
  *
- * @param list the list
- * @param value  pointer were the value at the first position will be put
+ * @param list  the list
+ * @param value pointer where the value at the first position will be put
  *
  * @return
  * 0 if the list was not empty\n
@@ -194,14 +194,14 @@ int listFst(List list,void** value);
  * Provides the value at the last position of a list.
  *
  * If the list is empty, it will be put the value <tt>NULL</tt> at
- * <tt>elem</tt>.
+ * <tt>value</tt>.
  * 
  * @attention
- * This function puts at <tt>elem</tt> a pointer to the value at the last
+ * This function puts at <tt>value</tt> a pointer to the value at the last
  * position.  Changes to this value will affect the element in the list.
  *
- * @param list the list
- * @param value  pointer were the value at the last position will be put
+ * @param list  the list
+ * @param value pointer where the value at the last position will be put
  *
  * @return
  * 0 if the list was not empty\n
@@ -213,15 +213,15 @@ int listLst(List list,void** value);
  * Provides the element at the specified position of a list.
  *
  * If there is no element at the specified position, it will be put the value
- * <tt>NULL</tt> at <tt>elem</tt>.
+ * <tt>NULL</tt> at <tt>value</tt>.
  *
  * @attention
- * This function puts at <tt>elem</tt> a pointer to the value at the last
+ * This function puts at <tt>value</tt> a pointer to the value at the last
  * position.  Changes to this value will affect the element in the list.
  *
- * @param list the list
+ * @param list  the list
  * @param index the index of the element to be provided
- * @param value  pointer were the value at the specified position will be put
+ * @param value pointer where the value at the specified position will be put
  *
  * @return
  * 0 if there was an elements at the specified position\n
@@ -245,7 +245,7 @@ int listSize(List list);
  * The function to be applied must be of type <tt>void fun(void*)</tt>.
  *
  * @param list the list
- * @param fun   the function to be applied
+ * @param fun  the function to be applied
  *
  * @return
  * 0 if the list was not empty\n
