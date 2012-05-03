@@ -8,22 +8,25 @@
  */
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "rstring.h"
 
 
-int delISpaces(char* str)
+int trimStart(char* str)
 {
   int i,j;
     
   if(!str) return -1;
   else
   {
-    for(j=0;str[j]==' ';j++);
+    for(j=0;isspace(str[j]);j++);
 
     if(j)
     {
       for(i=0;str[j];i++,j++)
+      {
         str[i]=str[j];
+      }
 
       str[i]=str[j];
 
@@ -35,37 +38,17 @@ int delISpaces(char* str)
 
 //##############################################################################
 
-int delCSpaces(char* str)
-{
-  int i,j;
-
-  if(!str) return -1;
-  else
-  {
-    for(i=0,j=1;str[i+1];i++)
-      if(str[i]!=' '||str[i+1]!=' ')
-      {
-        str[j]=str[i+1];
-        j++;
-      }
-
-    str[j]=str[i+1];
-
-    return j;
-  }
-}
-
-//##############################################################################
-
-int delESpaces(char* str)
+int trimEnd(char* str)
 {
   int i;
     
   if(!str) return -1;
   else
   {
-    for(i=strlen(str);str[i-1]==' ';i--)
+    for(i=strlen(str);isspace(str[i-1]);i--)
+    {
       str[i-1]='\0';
+    }
 
     return i;
   }
@@ -73,23 +56,25 @@ int delESpaces(char* str)
 
 //##############################################################################
 
-int delSpaces(char* str)
+int trim(char* str)
 {
   int i,j;
 
   if(!str) return -1;
   else
   {
-    for(i=0;str[i]==' ';i++);
+    for(i=0;isspace(str[i]);i++);
 
     for(j=0;str[i];i++)
-      if(str[i]!=' '||str[i+1]!=' ')
+    {
+      if(!isspace(str[i])||!isspace(str[j-1]))
       {
         str[j]=str[i];
         j++;
       }
+    }
 
-    if(str[j-1]==' ')
+    if(isspace(str[j-1]))
     {
       str[j-1]='\0';
       return(j-1);
@@ -131,18 +116,20 @@ List words(const char* str)
   else
   {
     aux=strdup(str);
-    delSpaces(aux);
+    trim(aux);
     sub=&aux[0];
     l=newList();
 
     for(i=0,err=0;aux[i]&&!err;i++)
-      if(aux[i]==' ')
+    {
+      if(isspace(aux[i]))
       {
         aux[i]='\0';
         tmp=strdup(sub);
         err=listInsertLst(l,tmp);
         sub=&aux[i+1];
       }
+    }
     tmp=strdup(sub);
     err=listInsertLst(l,tmp)&&err;
 

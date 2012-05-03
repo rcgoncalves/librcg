@@ -23,17 +23,7 @@
  *
  * @return tamanho da string resultante.
  */
-int delISpaces(char* str);
-
-/**
- * Remove espaços de uma string.
- * Remove espaço consecutivos de uma string.
- *
- * @param str string na qual vamos remover os espaços.
- *
- * @return tamanho da string resultante.
- */
-int delCSpaces(char* str);
+int trimStart(char* str);
 
 /**
  * Remove espaços de uma string.
@@ -43,7 +33,7 @@ int delCSpaces(char* str);
  *
  * @return tamanho da string resultante.
  */
-int delESpaces(char* str);
+int trimEnd(char* str);
 
 /**
  * Remove espaços de uma string.
@@ -54,7 +44,7 @@ int delESpaces(char* str);
  *
  * @return tamanho da string resultante.
  */
-int delSpaces(char* str);
+int trim(char* str);
 
 /**
  * Verifica se um carácter ocorre numa string.
