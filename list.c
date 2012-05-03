@@ -1,10 +1,10 @@
 /**
  * Implementação de uma lista (duplamente) ligada.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file list.c
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
 #include <stdlib.h>
 #include "list.h"
@@ -13,7 +13,6 @@
 List newList()
 {
   List list=(List)malloc(sizeof(SList));
-
   if(list)
   {
     list->size=0;
@@ -23,12 +22,11 @@ List newList()
   return list;
 }
 
-//##############################################################################
+//==============================================================================
 
 void listDelete(List list)
 {
   ListNode this,next;
-
   if(!list->size) free(list);
   else
   {
@@ -40,343 +38,298 @@ void listDelete(List list)
   }
 }
 
-//##############################################################################
+//==============================================================================
 
-int listInsertFst(List list,void* inf)
+int listInsertFst(List list,void* value)
 {
+  int result=0;
   ListNode new;
-
   if(!list->size)
   {
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=NULL;
       new->prev=NULL;
-
       list->size++;
       list->first=new;
       list->last=new;
-
-      return 0;
     }
-    else return 1;
+    else result=1;
   }
   else
   {
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=list->first;
       new->prev=NULL;
-
       list->size++;
       list->first->prev=new;
       list->first=new;
-
-      return 0;
     }
-    else return 1;
+    else result=1;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listInsertLst(List list,void* inf)
+int listInsertLst(List list,void* value)
 {
+  int result=0;
   ListNode new;
-
   if(!list->size)
   {
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=NULL;
       new->prev=NULL;
-
       list->size++;
       list->first=new;
       list->last=new;
-
-      return 0;
     }
-    else return 1;
+    else result=1;
   }
   else
   {
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=NULL;
       new->prev=list->last;
-
       list->size++;
       list->last->next=new;
       list->last=new;
-
-      return 0;
     }
-    else return 1;
+    else result=1;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listInsertAt(List list,int index,void* inf)
+int listInsertAt(List list,int index,void* value)
 {
-  int size=listSize(list);
+  int size=listSize(list),result=0;
   ListNode aux,new;
-  
-  if(index<0||index>size) return 1;
-  else if(!index) return(listInsertFst(list,inf));
-  else if(index==size) return(listInsertLst(list,inf));
+  if(index<0||index>size) result=1;
+  else if(!index) result=listInsertFst(list,value);
+  else if(index==size) result=listInsertLst(list,value);
   else if(index>size/2)
   {
     for(index=size-index,aux=list->last;index>0;index--,aux=aux->prev);
-
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=aux->next;
       new->prev=aux;
-
       list->size++;
       aux->next->prev=new;
       aux->next=new;
-
-      return 0;
     }
-    else return 1;
+    else result=1;
   }
   else
   {
     for(aux=list->first;index>0;index--,aux=aux->next);
-
     new=(ListNode)malloc(sizeof(SListNode));
-
     if(new)
     {
-      new->inf=inf;
+      new->value=value;
       new->next=aux;
       new->prev=aux->prev;
-
       list->size++;
       aux->prev->next=new;
       aux->prev=new;
-
-      return 0;
     }
-    else return 0;
+    else result=0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listRemoveFst(List list,void** inf)
+int listRemoveFst(List list,void** value)
 {
+  int result=0;
   ListNode aux;
-  
   if(!list->size)
   {
-    if(inf) *inf=NULL;
-    return 1;
+    if(value) *value=NULL;
+    result=1;
   }
   else if(list->size==1)
   {
-    if(inf) *inf=list->first->inf;
+    if(value) *value=list->first->value;
     free(list->first);
     list->first=NULL;
     list->last=NULL;
     list->size=0;
-
-    return 0;
   }
   else
   {
-    if(inf) *inf=list->first->inf;
+    if(value) *value=list->first->value;
     aux=list->first;
     list->first->next->prev=NULL;
     list->first=list->first->next;
     free(aux);
     list->size--;
-
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listRemoveLst(List list,void** inf)
+int listRemoveLst(List list,void** value)
 {
+  int result=0;
   ListNode aux;
-
   if(!list->size)
   {
-    if(inf) *inf=NULL;
-    return 1;
+    if(value) *value=NULL;
+    result=1;
   }
   else if(list->size==1)
   {
-    if(inf) *inf=list->last->inf;
+    if(value) *value=list->last->value;
     free(list->last);
     list->first=NULL;
     list->last=NULL;
     list->size=0;
-
-    return 0;
   }
   else
   {
-    if(inf) *inf=list->last->inf;
+    if(value) *value=list->last->value;
     aux=list->last;
     list->last->prev->next=NULL;
     list->last=list->last->prev;
     free(aux);
     list->size--;
-
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listRemoveAt(List list,int index,void** inf)
+int listRemoveAt(List list,int index,void** value)
 {
-  int size=listSize(list);
+  int size=listSize(list),result=0;
   ListNode aux;
-  
-  if(index<0||index>size-1) return 1;
-  else if(index==0) return listRemoveFst(list,inf);
-  else if(index==size-1) return listRemoveLst(list,inf);
+  if(index<0||index>size-1) result=1;
+  else if(index==0) result=listRemoveFst(list,value);
+  else if(index==size-1) result=listRemoveLst(list,value);
   else if(index>size/2)
   {
     for(aux=list->last,index=size-index-1;index>0;index--,aux=aux->prev);
-
-    if(inf) *inf=aux->inf;
+    if(value) *value=aux->value;
     aux->prev->next=aux->next;
     aux->next->prev=aux->prev;
     free(aux);
     list->size--;
-
-    return 0;
   }
   else
   {
     for(aux=list->first;index>0;index--,aux=aux->next);
-
-    if(inf) *inf=aux->inf;
+    if(value) *value=aux->value;
     aux->prev->next=aux->next;
     aux->next->prev=aux->prev;
     free(aux);
     list->size--;
-
-    return 0;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listFst(List list,void** inf)
+int listFst(List list,void** value)
 {
+  int result=0;
   if(!list->size)
   {
-    *inf=NULL;
-    return 1;
+    *value=NULL;
+    result=1;
   }
-  else
-  {
-    *inf=list->first->inf;
-    return 0;
-  }
+  else *value=list->first->value;
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listLst(List list,void** inf)
+int listLst(List list,void** value)
 {
+  int result=0;
   if(!list->size)
   {
-    *inf=NULL;
-    return 1;
+    *value=NULL;
+    result=1;
   }
-  else
-  {
-    *inf=list->last->inf;
-    return 0;
-  }
+  else *value=list->last->value;
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
-int listAt(List list,int index,void** inf)
+int listAt(List list,int index,void** value)
 {
-  int size=listSize(list);
+  int size=listSize(list),result=0;
   ListNode aux;
-
   if(index<0||index>size-1)
   {
-    *inf=NULL;
-    return 1;
+    *value=NULL;
+    result=1;
   }
   else
   {
     if(index>size/2) for(index=size-index-1,aux=list->last;index>0;index--,aux=aux->prev);
     else for(aux=list->first;index>0;index--,aux=aux->next);
-
-    *inf=aux->inf;
-    return 0;
+    *value=aux->value;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int listSize(List list)
 {
-  return(list->size);
+  return list->size;
 }
 
-//##############################################################################
+//==============================================================================
 
 int listMap(List list,void(*fun)(void*))
 {
+  int result=0;
   ListNode aux;
-  
-  if(!list->size) return 1;
+  if(!list->size) result=1;
   else
   {
     for(aux=list->first;aux;aux=aux->next)
-      fun(aux->inf);
-
-    return 0;
+      fun(aux->value);
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 Iterator listIterator(List list)
 {
   int ctrl;
   ListNode aux;
   Iterator it;
-  
   it=newIt(list->size);
   for(aux=list->first,ctrl=0;aux&&!ctrl;aux=aux->next)
-    ctrl=itAdd(it,aux->inf);
-
+    ctrl=itAdd(it,aux->value);
   if(ctrl)
   {
     itDelete(it);
-    return NULL;
+    it=NULL;
   }
-  else return it;
+  return it;
 }

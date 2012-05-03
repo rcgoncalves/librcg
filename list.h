@@ -1,253 +1,268 @@
 /**
- * Implementação de uma lista (duplamente) ligada.
- * Esta biblioteca disponibiliza um conjunto de funções que permitem manipular
- *   uma lista (duplamente) ligada.
+ * Implementation of a linked list.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * This library provides functions to create linked lists.
+ *
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file list.h
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
-#ifndef _LIST_
-#define _LIST_
+#ifndef _LIST_H_
+#define _LIST_H_
 
 #include "iterator.h"
 
 /**
- * Estrutura do nodo da lista.
+ * Linked list node structure.
  */
 typedef struct sListNode
 {
-  ///Apontador para a informação do nodo.
-  void *inf;
-  ///Apontador para o nodo anterior.
+  ///Node's value.
+  void* value;
+  ///Previous node.
   struct sListNode *prev;
-  ///Apontador para o nodo seguinte.
+  ///Next node.
   struct sListNode *next;
 }SListNode;
 
 /**
- * Definição do apontador para os nodos da lista.
+ * Linked list node definition.
  */
 typedef SListNode* ListNode;
 
 /**
- * Estrutura da lista.
+ * Linked list structure.
  */
 typedef struct sList
 {
-  ///Número de elementos da lista.
+  ///Number of elements of this linked list.
   int size;
-  ///Apontador para o início da lista.
+  ///First node.
   ListNode first;
-  ///Apontador para o fim da lista.
+  ///Last node.
   ListNode last;
 }SList;
 
 /**
- * Definição da lista.
+ * Linked list definition.
  */
 typedef SList* List;
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Cria uma lista.
- * Se não for possível criar a lista devolve NULL.
+ * Creates a list.
  *
- * @return lista inicializada ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new array otherwise
  */
 List newList();
 
 /**
- * Elimina uma lista.
+ * Deletes a list.
  *
- * @attention apenas liberta a memória referente à estrutura da lista; não
- *            liberta o espaço ocupado pelos elementos nela contidos.
+ * @attention
+ * This function only frees the memory used by the list.  It does not free the
+ * memory used by elements the list contains.
  *
- * @param list lista.
+ * @param list the list to be deleted
  */
 void listDelete(List list);
 
 /**
- * Insere um elemento no início de uma lista.
- * Verifica se é possível inserir o elemento, devolvendo 1 caso não seja
- *   possível.
+ * Inserts an element at the beginning of a list.
  *
- * @param list lista.
- * @param inf  endereço do elementos que queremos inserir.
+ * @param list  the list
+ * @param value the value to be inserted
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se não for possível alocar memória para o novo elemento.
+ * @return
+ * 0 if the new value was inserted\n
+ * 1 if it was not possible to insert the new element
  */
-int listInsertFst(List list,void* inf);
+int listInsertFst(List list,void* value);
 
 /**
- * Insere um elemento no fim de uma lista.
- * Verifica se é possível inserir o elemento, devolvendo 1 caso não seja
- *   possível.
+ * Inserts an element at the end of a list.
  *
- * @param list lista.
- * @param inf  endereço do elemento que queremos inserir.
+ * @param list  the list
+ * @param value the value to be inserted
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se não for possível alocar memória para o novo elemento.
+ * @return
+ * 0 if the new value was inserted\n
+ * 1 if it was not possible to insert the new element
  */
-int listInsertLst(List list,void* inf);
+int listInsertLst(List list,void* value);
 
 /**
- * Insere um elemento numa determinada posição de uma lista.
- * A posição, especificada pelo argumento @a index, tem que estar entre 0 e o
- *   tamanho da lista.
- * O (n+1)-ésimo elemento e todos os seguintes avançam uma posição.
+ * Inserts an new element at the specified position of a list.
  *
- * @param list  lista.
- * @param index posição em que será inserido.
- * @param inf   endereço do elemento que queremos inserir.
+ * The position, specified by argument <tt>index</tt>, must be a non negative
+ * integer, and less than the current size of the list.
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se o valor de @a index não for válido;\n
- *         2 se não for possível alocar memória para o novo elemento.
+ * @param list  the list
+ * @param index the index at which the new value is to be inserted
+ * @param value the value to be inserted
+ *
+ * @return
+ * 0 if the new value was inserted\n
+ * 1 if the position was not valid\n
+ * 2 if it was not possible to insert the new element
  */
-int listInsertAt(List list,int index,void* inf);
+int listInsertAt(List list,int index,void* value);
 
 /**
- * Remove o primeiro elemento de uma lista.
- * Permite devolver a informação do elemento removido, caso o valor de @a inf
- *   seja diferente de NULL.
- * Se a lista estiver vazia é colocado o valor NULL em @a inf.
+ * Removes the first element of a list.
  *
- * @attention esta função não liberta o espaço ocupado pelo elemento removido.
+ * Provides the value of the removed element if the value of <tt>value</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param list lista.
- * @param inf  endereço onde é colocado o elemento removido (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a lista estiver vazia.
+ * @param list  the list.
+ * @param value pointer were the removed value should be put (or
+ * <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if the element was removed\n
+ * 1 if the list was empty
  */
-int listRemoveFst(List list,void** inf);
+int listRemoveFst(List list,void** value);
 
 /**
- * Remove o último elemento de uma lista.
- * Permite devolver a informação do elemento removido, caso o valor de @a inf
- *   seja diferente de NULL.
- * Se a lista estiver vazia é colocado o valor NULL em @a inf.
+ * Removes the last element of a list.
  *
- * @attention esta função não liberta o espaço ocupado pelo elemento removido.
+ * Provides the value of the removed element if the value of <tt>value</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param list lista.
- * @param inf  endereço onde é colocado o elemento removido (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a lista estiver vazia.
+ * @param list  the list.
+ * @param value pointer were the removed value should be put (or
+ * <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if the element was removed\n
+ * 1 if the list was empty
  */
-int listRemoveLst(List list,void** inf);
+
+int listRemoveLst(List list,void** value);
 
 /**
- * Remove o elemento de uma determinada posição de uma lista. 
- * Permite devolver a informação do elemento removido, caso o valor de @a inf
- *   seja diferente de NULL.
- * Se a lista estiver vazia é colocado o valor NULL em @a inf.\n
- * A posição, especificada pelo argumento @a n, tem que estar entre 0 e o
- *   tamanho da lista menos 1.
- * O n-ésimo elemento e todos os seguintes recuam uma posição.
+ * Removes the element at the specified position of a list.
  *
- * @attention esta função não liberta o espaço ocupado pelo elemento removido.
+ * Provides the value of the removed element if the value of <tt>value</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param list  lista.
- * @param index posição do elemento que queremos remover.
- * @param inf   endereço onde é colocado o elemento removido (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se o valor de @a n não for válido.
+ * @param list  the list.
+ * @param index the index of the element to be removed
+ * @param value pointer were the removed value should be put (or
+ * <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if the element was removed\n
+ * 1 if the value of <tt>index</tt> was invalid
  */
-int listRemoveAt(List list,int index,void** inf);
+int listRemoveAt(List list,int index,void** value);
 
 /**
- * Verifica qual o primeiro elemento de uma lista.
- * Se a lista estiver vazia é colocado o valor NULL em @a inf.
+ * Provides the value at the first position of a list.
  *
- * @attention esta função coloca em @a inf o endereço do elemento pretendido;
- *            depois de executar esta função é aconselhável fazer uma cópia da
- *            informação e passar a trabalhar com a cópia para que não haja
- *            problemas de partilha de referências.
+ * If the list is empty, it will be put the value <tt>NULL</tt> at
+ * <tt>elem</tt>.
+ * 
+ * @attention
+ * This function puts at <tt>elem</tt> a pointer to the value at the first
+ * position.  Changes to this value will affect the element in the list.
  *
- * @param list lista.
- * @param inf  endereço onde é colocado o resultado.
+ * @param list the list
+ * @param value  pointer were the value at the first position will be put
  *
- * @return 0 se a lista não estiver vazia;\n
- *         1 se a lista estiver vazia.
+ * @return
+ * 0 if the list was not empty\n
+ * 1 otherwise
  */
-int listFst(List list,void** inf);
+int listFst(List list,void** value);
 
 /**
- * Verifica qual o último elemento de uma lista.
- * Se a lista estiver vazia é colocado o valor NULL em @a inf.
+ * Provides the value at the last position of a list.
  *
- * @attention esta função coloca em @a inf o endereço do elemento pretendido;
- *            depois de executar esta função é aconselhável fazer uma cópia da
- *            informação e passar a trabalhar com a cópia para que não haja
- *            problemas de partilha de referências.
+ * If the list is empty, it will be put the value <tt>NULL</tt> at
+ * <tt>elem</tt>.
+ * 
+ * @attention
+ * This function puts at <tt>elem</tt> a pointer to the value at the last
+ * position.  Changes to this value will affect the element in the list.
  *
- * @param list lista.
- * @param inf  endereço onde é colocado o resultado.
+ * @param list the list
+ * @param value  pointer were the value at the last position will be put
  *
- * @return 0 se a lista não estiver vazia;\n
- *         1 se a lista estiver vazia.
+ * @return
+ * 0 if the list was not empty\n
+ * 1 otherwise
  */
-int listLst(List list,void** inf);
+int listLst(List list,void** value);
 
 /**
- * Verifica qual o elemento numa determinada posição de uma lista.
- * A posição, especificada pelo argumento @a index, tem que estar entre 0 e o
- *   tamanho da lista menos 1. Se isto não acontecer é colocado o valor NULL em
- *   @a inf.
+ * Provides the element at the specified position of a list.
  *
- * @attention esta função coloca em @a inf o endereço do elemento pretendido;
- *            depois de executar esta função é aconselhável fazer uma cópia da
- *            informação e passar a trabalhar com a cópia para que não haja
- *            problemas de partilha de referências.
+ * If there is no element at the specified position, it will be put the value
+ * <tt>NULL</tt> at <tt>elem</tt>.
  *
- * @param list  lista.
- * @param index posição do elemento que procuramos.
- * @param inf   endereço onde será colocado o resultado.
+ * @attention
+ * This function puts at <tt>elem</tt> a pointer to the value at the last
+ * position.  Changes to this value will affect the element in the list.
  *
- * @return 0 se o valor de @a index for válido;\n
- *         1 se o valor de @a index não for válido.
+ * @param list the list
+ * @param index the index of the element to be provided
+ * @param value  pointer were the value at the specified position will be put
+ *
+ * @return
+ * 0 if there was an elements at the specified position\n
+ * 1 otherwise
  */
-int listAt(List list,int index,void** inf);
+int listAt(List list,int index,void** value);
 
 /**
- * Determina o tamanho de uma lista.
- * Devolve o valor do campo @a size da lista.
+ * Returns the size of a list.
  *
- * @param list lista.
+ * @param list the list
  *
- * @return número de elementos da lista.
+ * @return
+ * the size of the list
  */
 int listSize(List list);
 
 /**
- * Aplica uma função aos elementos de uma lista.
- * A função @c fun tem que ser do tipo: <tt>void @c fun(void*)</tt>.
+ * Applies a function to the elements of a list.
  *
- * @param list lista.
- * @param fun  função a ser aplicada.
+ * The function to be applied must be of type <tt>void fun(void*)</tt>.
  *
- * @return 0 se a lista não estiver vazia;\n
- *         1 se a lista estiver vazia.
+ * @param list the list
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the list was not empty\n
+ * 1 otherwise
  */
 int listMap(List list,void(*fun)(void*));
 
 /**
- * Cria um iterador a partir de uma lista.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from a list.
  *
  * @see Iterator
  *
- * @param list lista.
+ * @param list the list
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator listIterator(List list);
 
