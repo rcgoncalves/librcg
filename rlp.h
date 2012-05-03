@@ -49,22 +49,24 @@
 int simplex(double* a,int n,int m,FILE* file);
 
 /**
- * Aplica o @a Algoritmo @a Simplex primal a um problema de programação linear.
- * A matriz de entrada (@a a) segue o formato da matriz de entrada da função
- *   <tt>@ref simplex</tt>.\n
- * Permite definir um ficheiro onde são colocadas as várias tabelas resultantes
- *   da aplicação do algoritmo (através da variável @a file).
+ * Applies the <em>Simplex algorithm</em> to a primal optimization problem.
  *
- * @param a    matriz que representa o problema.
- * @param n    número de variáveis da função objectivo.
- * @param m    número de condições.
- * @param pos  posição em que se encontra o menor valor da última coluna das
- *             restrições (sendo que o menor valor terá que ser obrigatoriamente
- *             negativo).
- * @param file ficheiro onde as tabelas serão impressas (ou NULL).
+ * The input matrix (<tt>a</tt>) must follow the format defined in function
+ * <tt><ref>simplex</ref></tt>.
  *
- * @return 0 se for possível determinar um resultado.
- *         1 caso contrário.
+ * Allows to specify the file where the table resulting from the application of
+ * the algorithm (using the parameter <em>file</em>).
+ *
+ * @param a    matrix that represents the problem
+ * @param n    number of variable of the function
+ * @param m    number restrictions
+ * @param pos  position of the minimum value of the restrictions' column (it
+ * 	       must be a negative value)
+ * @param file file where the tables will be saved (or <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if it is possible to solve the problem\n
+ * 1 otherwise
  */
 int simplexp(double* a,int n,int m,int pos,FILE* file);
 
@@ -84,6 +86,26 @@ int simplexp(double* a,int n,int m,int pos,FILE* file);
  *
  * @return 0 se for possível determinar um resultado.
  *         1 caso contrário.
+ */
+/**
+ * Applies the <em>Simplex algorithm</em> to a dual optimization problem.
+ *
+ * The input matrix (<tt>a</tt>) must follow the format defined in function
+ * <tt><ref>simplex</ref></tt>.
+ *
+ * Allows to specify the file where the table resulting from the application of
+ * the algorithm (using the parameter <em>file</em>).
+ *
+ * @param a    matrix that represents the problem
+ * @param n    number of variable of the function
+ * @param m    number restrictions
+ * @param pos  position of the minimum value of the first row (it must be a
+ *             negative value)
+ * @param file file where the tables will be saved (or <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if it is possible to solve the problem\n
+ * 1 otherwise
  */
 int simplexd(double* a,int n,int m,int pos,FILE* file);
 
