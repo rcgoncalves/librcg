@@ -100,7 +100,7 @@ int arrayInsert(Array array,int index,void* elem,int replace);
  *
  * @param array the array
  * @param index the index of the element to be removed
- * @param elem  pointer were the removed element should be put (or
+ * @param elem  pointer where the removed element should be put (or
  * <tt>NULL</tt>)
  *
  * @return
@@ -121,7 +121,7 @@ int arrayRemove(Array array,int index,void** elem);
  *
  * @param array the array
  * @param index the index of the element to be provided
- * @param elem  pointer were the element at the specified position will be put
+ * @param elem  pointer where the element at the specified position will be put
  *
  * @return
  * 0 if there was an element at the specified position\n
