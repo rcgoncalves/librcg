@@ -64,7 +64,8 @@ int charElem(char c,const char* str);
  * @param str the string
  *
  * @return
- * list of words
+ * <tt>NULL</tt> if an error occurred\n
+ * the list of words otherwise
  */
 List words(const char* str);
 
@@ -81,8 +82,9 @@ List words(const char* str);
  * @param delim the delimiters
  *
  * @return
- * list of words resulting from split the string at occurrences of the specified
- * delimiters
+ * <tt>NULL</tt> if an error occurred\n
+ * the list of words resulting from splitting the string at occurrences of the
+ * specified delimiters
  */
 List strSep(const char* str,const char* delim);
 
