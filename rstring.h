@@ -1,88 +1,88 @@
 /**
- * Implementação de funções que manipulam strings.
- * Esta biblioteca disponibiliza funções que removem espaços em determinadas
- *   posições de uma string e que separam a string em função de determinados
- *   caracteres.
+ * Implementation of functions to manipulate strings.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file rstring.h
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
-#ifndef _RSTRING_
-#define _RSTRING_
+#ifndef _RSTRING_H_
+#define _RSTRING_H_
 
 #include "list.h"
 
-
 /**
- * Remove espaços de uma string.
- * Remove os espaços no início de uma string.
+ * Removes leading whitespaces of a string.
  *
- * @param str string na qual vamos remover os espaços.
+ * @param str the string
  *
- * @return tamanho da string resultante.
+ * @return
+ * the size of the resulting string
  */
 int trimStart(char* str);
 
 /**
- * Remove espaços de uma string.
- * Remove os espaços no fim de uma string.
+ * Removes trailing whitespaces of a string.
  *
- * @param str string na qual vamos remover os espaços.
+ * @param str the string
  *
- * @return tamanho da string resultante.
+ * @return
+ * the size of the resulting string
  */
 int trimEnd(char* str);
 
 /**
- * Remove espaços de uma string.
- * Remove os espaços no início e no fim de uma string e ainda espaços
- *   consecutivos entre palavras.
+ * Removes leading and trailing whitespaces of a string, as well as consecutive
+ * whitespaces in the middle of a string.
  *
- * @param str string na qual vamos remover os espaços.
+ * @param str the string
  *
- * @return tamanho da string resultante.
+ * @return
+ * the size of the resulting string
  */
 int trim(char* str);
 
 /**
- * Verifica se um carácter ocorre numa string.
+ * Checks if there is an occurrence of a specif character in a string.
  *
- * @param c   carácter que procuramos.
- * @param str string onde vamos procurar.
+ * @param c   the character
+ * @param str the string
  *
- * @return 0 se o carácter não ocorrer na string;\n
- *         1 caso contrário.
+ * @return
+ * 1 if there is an occurrence of the character in the string\n
+ * 0 otherwise
  */
 int charElem(char c,const char* str);
 
 /**
- * Dada uma string, obtem a lista de palavras que a compõe.
- * A string original não é alterada.
- * Caso @a str seja NULL ou ocorra algum erro é devolvido NULL.
+ * Given a string, computes the list of words that the string contains.
+ *
+ * The original string is not changed.
  *
  * @see List
  *
- * @param str string a separar.
+ * @param str the string
  *
- * @return lista de palavras ou NULL.
+ * @return
+ * list of words
  */
 List words(const char* str);
 
 /**
- * Divide uma string.
- * Cria uma lista de strings com as substrings da original delimitadas pelos
- *   caracteres pertencentes a @a delim.
- * A string original não é alterada.
- * Caso @a str seja NULL ou ocorra algum erro é devolvido NULL.
+ * Splits a string.
+ *
+ * Computes a list of strings, each of which is a substring of the string formed
+ * by splitting it on the boundaries defined by the specified delimiters
+ * (<tt>delim</tt>).
  *
  * @see List
  *
- * @param str   string a separar.
- * @param delim delimitadores.
+ * @param str   the string
+ * @param delim the delimiters
  *
- * @return lista de substrings.
+ * @return
+ * list of words resulting from split the string at occurrences of the specified
+ * delimiters
  */
 List strSep(const char* str,const char* delim);
 

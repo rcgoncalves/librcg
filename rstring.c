@@ -1,70 +1,63 @@
 /**
- * Implementação de funções que manipulam strings.
+ * Implementation of functions to manipulate strings.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file rstring.c
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include "rstring.h"
 
-
 int trimStart(char* str)
 {
-  int i,j;
-    
-  if(!str) return -1;
+  int i,j,result;
+  if(!str) result=-1;
   else
   {
     for(j=0;isspace(str[j]);j++);
-
     if(j)
     {
       for(i=0;str[j];i++,j++)
       {
         str[i]=str[j];
       }
-
       str[i]=str[j];
-
-      return i;
+      result=i;
     }
-    else return strlen(str);
+    else result=strlen(str);
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int trimEnd(char* str)
 {
-  int i;
-    
-  if(!str) return -1;
+  int i,result=0;
+  if(!str) result=-1;
   else
   {
     for(i=strlen(str);isspace(str[i-1]);i--)
     {
       str[i-1]='\0';
     }
-
-    return i;
+    result=i;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int trim(char* str)
 {
-  int i,j;
-
-  if(!str) return -1;
+  int i,j,result=0;
+  if(!str) result=-1;
   else
   {
     for(i=0;isspace(str[i]);i++);
-
     for(j=0;str[i];i++)
     {
       if(!isspace(str[i])||!isspace(str[j-1]))
@@ -73,53 +66,50 @@ int trim(char* str)
         j++;
       }
     }
-
     if(isspace(str[j-1]))
     {
       str[j-1]='\0';
-      return(j-1);
+      result=j-1;
     }
     else
     {
       str[j]='\0';
-      return j;
+      result=j;
     }
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int charElem(char c,const char* str)
 {
-  int i,res;
-  
-  if(!str) return 0;
-  else
+  int i,result=0;
+  if(str)
   {
-    for(i=0,res=0;str[i]&&!res;i++)
-      res=(c==str[i]);
-
-    return res;
+    for(i=0;str[i]&&!result;i++)
+    {
+      result=(c==str[i]);
+    }
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 List words(const char* str)
 {
   List l;
   char *aux,*sub,*tmp;
   int i,err;
-  
-  if(!str) return NULL;
-  else if(!str[0]) return newList();
+  if(!str) l=NULL;
+  else if(!str[0]) l=newList();
   else
   {
     aux=strdup(str);
     trim(aux);
     sub=&aux[0];
     l=newList();
-
     for(i=0,err=0;aux[i]&&!err;i++)
     {
       if(isspace(aux[i]))
@@ -132,38 +122,33 @@ List words(const char* str)
     }
     tmp=strdup(sub);
     err=listInsertLst(l,tmp)&&err;
-
     if(err)
     {
       listMap(l,free);
       listDelete(l);
-      return NULL;
+      l=NULL;
     }
-    else
-    {
-      free(aux);
-      return l;
-    }
+    else free(aux);
   }
+  return l;
 }
 
-//##############################################################################
+//==============================================================================
 
 List strSep(const char* str,const char* delim)
 {
   List l;
   char *aux,*tmp,*sub;
   int i,err;
-
-  if(!str) return NULL;
-  else if(!str[0]) return newList();
+  if(!str) l=NULL;
+  else if(!str[0]) l=newList();
   else
   {
     aux=strdup(str);
     sub=&aux[0];
     l=newList();
-    
     for(i=0,err=0;aux[i]&&!err;i++)
+    {
       if(1==charElem(aux[i],delim))
       {
         aux[i]='\0';
@@ -174,22 +159,19 @@ List strSep(const char* str,const char* delim)
         }
         sub=&aux[i+1];
       }
+    }
     if(sub[0]!=aux[i])
     {
       tmp=strdup(sub);
       err=listInsertLst(l,tmp)&&err;
     }
-
     if(err)
     {
       listMap(l,free);
       listDelete(l);
-      return NULL;
+      l=NULL;
     }
-    else
-    {
-      free(aux);
-      return l;
-    }
+    else free(aux);
   }
+  return l;
 }
