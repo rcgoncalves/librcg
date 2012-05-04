@@ -1,7 +1,7 @@
 /**
  * Implementation of a linked list.
  *
- * This library provides functions to create linked lists.
+ * This library provides functions to create and manipulate linked lists.
  *
  * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file list.h
