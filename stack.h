@@ -1,147 +1,156 @@
 /**
- * Implementação de uma stack como lista ligada.
- * Esta biblioteca disponibiliza um conjunto de funções que permitem manipular
- *   uma stack.
+ * Implementation of a stack as a linked list.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * This library provides functions to create and manipulate stacks.
+ *
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file stack.h
- * @version 2.0.1
- * @date 02/2009
+ * @version 3.0
+ * @date 05/2012
  */
-#ifndef _STACK_
-#define _STACK_
+#ifndef _STACK_H_
+#define _STACK_H_
 
 #include "iterator.h"
 
 /**
- * Estrutura do nodo de uma stack.
+ * Stack node structure.
  */
 typedef struct sStackNode
 {
-  ///Apontador para a informação do nodo.
-  void* inf;
-  ///Apontador para o nodo seguinte.
+  ///Node's value.
+  void* value;
+  ///Next node.
   struct sStackNode *next;
 }SStackNode;
 
 /**
- * Definição do apontador para os nodos da stack.
+ * Stack node definition.
  */
 typedef SStackNode* StackNode;
 
 /**
- * Estrutura de uma stack.
+ * Stack structure.
  */
 typedef struct sStack
 {
-  ///Número de elementos da stack.
+  ///Number of values of this stack.
   int size;
-  ///Apontador para o topo da stack.
+  ///Top node of this stack.
   StackNode top;
 }SStack;
 
 /**
- * Definição da stack.
+ * Stack definition.
  */
 typedef SStack* Stack;
 
 //##############################################################################
 
 /**
- * Cria uma stack.
- * Se não for possível criar a stack devolve NULL.
+ * Creates a stack.
  *
- * @return stack inicializada ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new stack otherwise
  */
 Stack newStack();
 
 /**
- * Elemina uma stack.
+ * Deletes a stack.
  *
- * @attention apenas liberta a memória referente à estrutura da stack; não
- *            liberta o espaço ocupado pelos elementos nela contidos.
+ * @attention
+ * This function only frees the memory used by the stack.  It does not free the
+ * memory used by elements the stack contains.
  *
- * @param stack stack.
+ * @param stack the stack to be deleted
  */
 void stackDelete(Stack stack);
 
 /**
- * Insere um elemento numa stack.
- * Verifica se é possível inserir o novo elemento, devolvendo 1 caso não seja
- *   possível.
+ * Inserts an element at the top of the stack.
  *
- * @param stack stack.
- * @param inf   endereço do elemento que queremos inserir.
+ * @param stack the stack
+ * @param value the value to be inserted
  *
- * @return 0 se o elemento for inserido;\n
- *         1 caso não seja possível alocar memória para o novo elemento. 
+ * @return
+ * 0 if the new value was inserted\n
+ * 1 if it was not possible to insert the new element
  */
-int stackPush(Stack stack,void* inf);
+int stackPush(Stack stack,void* value);
 
 /**
- * Remove o elemento que está no topo de uma stack.
- * Permite devolver o elemento removido, caso o valor de @a inf seja diferente
- *   de NULL.
- * Se a stack estiver vazia é colocado o valor NULL em @a inf.\n
+ * Removes an elements from the top of a stack.
  *
- * @attention esta função não liberta o espaço ocupado pelo elemento removido.
+ * Provides the value of the removed element if the value of <tt>value</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param stack stack.
- * @param inf   endereço onde é colocado o elemento removido (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a stack estiver vazia.
+ * @param stack the stack
+ * @param value pointer where the removed value should be put (or
+ * <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if the element was removed\n
+ * 1 if the stack was empty
  */
-int stackPop(Stack stack,void** inf);
+int stackPop(Stack stack,void** value);
 
 /**
- * Verifica qual o elemento no topo de uma stack.
- * Se a stack estiver vazia é colocado o valor NULL em @a inf.
+ * Provides the value of the element at the top of a stack.
  *
- * @attention esta função coloca em @a inf o endereço da informação que está no
- *            topo da stack; depois de executar esta função é aconselhável fazer
- *            uma cópia da informação e passar a trabalhar com a cópia para que
- *            não haja problemas de partilha de referências.
+ * If the stack is empty, it will be put the value <tt>NULL</tt> at
+ * <tt>value</tt>.
  *
- * @param stack stack.
- * @param inf   endereço onde é colocado o resultado.
+ * @attention
+ * This function puts at <tt>value</tt> a pointer to the value at the top.
+ * Changes to this value will affect the element in the stack.
  *
- * @return 0 se a stack não estiver vazia;\n
- *         1 se a stack estiver vazia.
+ * @param stack the stack.
+ * @param value pointer where the value at the first position will be put
+ *
+ * @return
+ * 0 if the stack was not empty\n
+ * 1 otherwise
  */
-int stackTop(Stack stack,void** inf);
+int stackTop(Stack stack,void** value);
 
 /**
- * Determina o tamanho de uma stack.
- * Devolve o valor do campo @a size da stack.
+ * Returns the size of a stack.
  *
- * @param stack stack.
+ * @param stack the stack
  *
- * @return número de elementos da stack.
+ * @return
+ * the size of the stack
  */
 int stackSize(Stack stack);
 
 /**
- * Aplica uma função aos elementos de uma stack começando no topo.
- * A função @c fun tem que ser do tipo: <tt> void @c fun(void*)</tt>.
+ * Applies a function to the elements of a stack.
  *
- * @param stack stack.
- * @param fun   função a ser aplicada.
+ * The function to be applied must be of type <tt>void fun(void*)</tt>.
  *
- * @return 0 se a stack não estiver vazia;\n
- *         1 se a stack estiver vazia.
+ * @param stack the stack
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the stack was not empty\n
+ * 1 otherwise
  */
 int stackMap(Stack stack,void(*fun)(void*));
 
 /**
- * Cria um iterador a partir de uma stack.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from a stack.
  *
  * @see Iterator
  *
- * @param stack stack.
+ * @param stack the stack
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator stackIterator(Stack stack);
 
