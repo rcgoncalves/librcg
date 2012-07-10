@@ -1,52 +1,48 @@
 /**
- * Implementação de uma árvore binária de pesquisa equilibrada.
+ * Implementation of an AVL tree (self-balancing binary search tree).
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file treemap.c
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 07/2012
  */
 #include <stdlib.h>
 #include "treemap.h"
 
 /**
- * Efectua uma rotação à esquerda.
+ * Rotates a tree to left.
  *
- * @param tree raiz da (sub)árvore que vamos rodar.
+ * @param tree the root of the tree to rotate
  *
- * @return nova árvore.
+ * @return the new tree
  */
 static TreeNode leftRotate(TreeNode tree)
 {
-  TreeNode aux;
-  
+  TreeNode aux=tree;
   if(tree&&tree->right)
   {
     aux=tree->right;
     tree->right=aux->left;
     aux->left=tree;
-
     aux->super=tree->super;
     tree->super=aux;
     if(tree->right) tree->right->super=tree;
-    return aux;
   }
-  else return tree;
+  return aux;
 }
 
 //==============================================================================
 
 /**
- * Efectua uma rotação à direita.
+ * Rotates a tree to right.
  *
- * @param tree raiz da (sub)árvore que vamos rodar.
+ * @param tree the root of the tree to rotate
  *
- * @return nova árvore.
+ * @return the new tree
  */
 static TreeNode rightRotate(TreeNode tree)
 {
-  TreeNode aux;
-
+  TreeNode aux=tree;
   if(tree&&tree->left)
   {
     aux=tree->left;
@@ -56,22 +52,19 @@ static TreeNode rightRotate(TreeNode tree)
     aux->super=tree->super;
     tree->super=aux;
     if(tree->left) tree->left->super=tree;
-    return aux;
   }
-  else return tree;
+  return aux;
 }
 
 //==============================================================================
 
 /**
- * Efectua as rotações necessária a uma árvore que está balanceada para a
- *   esquerda.
- * Esta função destina-se a (sub)árvores cujo desiquilíbrio resulte do processo
- *   de inserção de um novo elemento.
+ * Rebalances a tree that is balanced to the left as result of an insertion
+ * operation.
  *
- * @param tree raiz da (sub)árvore que vamos equilibrar.
+ * @param tree the root of the tree to rebalance
  *
- * @return árvore equilibrada.
+ * @return the new tree
  */
 static TreeNode leftBalance(TreeNode tree)
 {
@@ -114,14 +107,12 @@ static TreeNode leftBalance(TreeNode tree)
 //==============================================================================
 
 /**
- * Efectua as rotações necessária a uma árvore que está balanceada para a
- *   direita.
- * Esta função destina-se a (sub)árvores cujo desiquilíbrio resulte do processo
- *   de inserção de um novo elemento.
+ * Rebalances a tree that is balanced to the right as result of an insertion
+ * operation.
  *
- * @param tree raiz da (sub)árvore que vamos equilibrar.
+ * @param tree the root of the tree to rebalance
  *
- * @return árvore equilibrada.
+ * @return the new tree
  */
 static TreeNode rightBalance(TreeNode tree)
 {
@@ -164,15 +155,13 @@ static TreeNode rightBalance(TreeNode tree)
 //=============================================================================
 
 /**
- * Efectua as rotações necessária a uma árvore que está balanceada para a
- *   esquerda.
- * Esta função destina-se a (sub)árvores cujo desiquilíbrio resulte do processo
- *   de remoção de um novo elemento.
+ * Rebalances a tree that is balanced to the left as result of a remotion
+ * operation.
  *
- * @param tree raiz da (sub)árvore que vamos equilibrar.
- * @param h    indica se a altura da árvore foi alterada ou não.
+ * @param tree the root of the tree to rebalance
+ * @param h    specifies whether the height of the tree changed
  *
- * @return árvore equilibrada.
+ * @return the new tree
  */
 static TreeNode rLeftBalance(TreeNode tree,int* h)
 {
@@ -213,15 +202,13 @@ static TreeNode rLeftBalance(TreeNode tree,int* h)
 //==============================================================================
 
 /**
- * Efectua as rotações necessária a uma árvore que está balanceada para a
- *   direita.
- * Esta função destina-se a (sub)árvores cujo desiquilíbrio resulte do processo
- *   de remoção de um novo elemento.
+ * Rebalances a tree that is balanced to the right as result of a remotion
+ * operation.
  *
- * @param tree raiz da (sub)árvore que vamos equilibrar.
- * @param h    indica se a altura da árvore foi ou não alterada.
+ * @param tree the root of the tree to rebalance
+ * @param h    specifies whether the height of the tree changed
  *
- * @return árvore equilibrada.
+ * @return the new tree
  */
 static TreeNode rRightBalance(TreeNode tree,int* h)
 {
@@ -262,57 +249,52 @@ static TreeNode rRightBalance(TreeNode tree,int* h)
 //==============================================================================
 
 /**
- * Determina o nodo com maior chave na subárvores esquerda da árvore dada.
+ * Returns the node with the greatest key on the left subtree of a tree.
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return maior elemento da esquerda.
+ * @return the node with the greatest key on the left subtree of the tree
  */
 static TreeNode upperLeft(TreeNode tree)
 {
-  while(tree->right)
-    tree=tree->right;
-
+  while(tree->right) tree=tree->right;
   return tree;
 }
 
-//##############################################################################
+//==============================================================================
 
 TreeMap newTree(int(*keyComp)(void*,void*))
 {
-  if(!keyComp) return NULL;
-  else
+  TreeMap tree=NULL;
+  if(keyComp)
   {
-    TreeMap tree=(TreeMap)malloc(sizeof(STreeMap));
-    if(!tree) return NULL;
-    else
+    tree=(TreeMap)malloc(sizeof(STreeMap));
+    if(tree)
     {
       tree->keyComp=*keyComp;
       tree->size=0;
       tree->root=NULL;
-      return tree;
     }
   }
+  return tree;
 }
 
-//##############################################################################
+//==============================================================================
 
 int treeSetKComp(TreeMap tree,int(*keyComp)(void*,void*))
 {
-  if(!keyComp) return 1;
-  else
-  {
-    tree->keyComp=*keyComp;
-    return 0;
-  }
+  int result=0;
+  if(!keyComp) result=1;
+  else tree->keyComp=*keyComp;
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Elimina um nodo de uma (sub)árvore e todos os seus descendentes.
+ * Deletes a node of a tree and all of its children nodes.
  *
- * @param tree raiz da árvore.
+ * @param tree the tree
  */
 static void treeDelAux(TreeNode tree)
 {
@@ -332,54 +314,43 @@ void treeDelete(TreeMap tree)
   free(tree);
 }
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Função auxiliar da função de inserção.
+ * Insertion auxiliary function.
  *
- * @param tree    árvore onde vamos fazer a inserção.
- * @param key     chave do elemento a inserir.
- * @param val     valor associado à chave.
- * @param replace variável que indica se valores já existentes são ou não
- *                substituídos.
- * @param h       variável que permite saber se a inserção aumentou o tamanho da
- *                árvore.
- * @param comp    função que permite comparar duas chaves.
+ * @param tree    the tree
+ * @param key     the key
+ * @param val     the value to be inserted
+ * @param replace specifies whether an old value shall be replaced
+ * @param h       specifies whether the height of the tree changed (h<0?), and
+ * whether an error occurred (h>0?)
+ * @param comp    key comparison function
  *
- * @return nova árvore.
+ * @return new tree
  */
 static TreeNode treeInsAux(TreeNode tree,void* key,void* val,int replace,int* h,
     int(*comp)(void*,void*))
 {
   int sig;
-  
   if(!tree)
   {
-    TreeNode new;
-    new=(TreeNode)malloc(sizeof(STreeNode));
-
-    if(new)
+    tree=(TreeNode)malloc(sizeof(STreeNode));
+    if(tree)
     {
-      new->key=key;
-      new->value=val;
-      new->bf=E;
-      new->super=NULL;
-      new->left=NULL;
-      new->right=NULL;
-
+      tree->key=key;
+      tree->value=val;
+      tree->bf=E;
+      tree->super=NULL;
+      tree->left=NULL;
+      tree->right=NULL;
       *h=0;
-      return new;
     }
-    else
-    {
-      *h=2;
-      return NULL;
-    }
+    else *h=2;
   }
   else
   {
     sig=comp(key,tree->key);
-
     if(sig<0)
     {
       tree->left=treeInsAux(tree->left,key,val,replace,h,comp);
@@ -403,7 +374,6 @@ static TreeNode treeInsAux(TreeNode tree,void* key,void* val,int replace,int* h,
     else if(sig>0)
     {
       tree->right=treeInsAux(tree->right,key,val,replace,h,comp);
-
       if(!(*h))
       {
         tree->right->super=tree;
@@ -426,57 +396,50 @@ static TreeNode treeInsAux(TreeNode tree,void* key,void* val,int replace,int* h,
       if(replace) tree->value=val;
       *h=1;
     }
-    return tree;
   }
+  return tree;
 }
 
 //==============================================================================
 
 int treeInsert(TreeMap tree,void* key,void* val,int replace)
 {
-  int h;
+  int h,result=0;
   tree->root=treeInsAux(tree->root,key,val,replace,&h,tree->keyComp);
-
-  if(h<1)
-  {
-    tree->size++;
-    return 0;
-  }
-  else return h;
+  if(h<1) tree->size++;
+  else result=h;
+  return result;
 }
 
-//#############################################################################
+//==============================================================================
 
 /**
- * Função auxiliar da função de remoção.
+ * Remotion auxiliary function.
  *
- * @param tree    árvore onde vamos fazer a inserção.
- * @param key     chave do elemento a inserir.
- * @param value   local onde será colocada a informação associada ao elemento
- *                removido.
- * @param del     função que elimina um chave.
- * @param h       variável que permite saber se a remoção aumentou o tamanho da
- *                árvore.
- * @param comp    função que permite comparar duas chaves.
+ * @param tree    the tree
+ * @param key     key whose mapping is to be removed
+ * @param value   pointer where the removed element shall be put (or
+ * <tt>NULL</tt>)
+ * @param del     function to free the memory used by the key (or <tt>NULL</tt>)
+ * @param h       specifies whether the height of the tree changed
+ * @param comp    key comparison function
  *
- * @return nova árvore.
+ * @return new tree
  */
 static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
     void(*del)(void*),int* h,int(*comp)(void*,void*))
 {
   int sig;
   TreeNode aux;
-  
   if(!tree)
   {
     if(value) *value=NULL;
     *h=1;
-    return NULL;
+    aux=NULL;
   }
   else
   {
     sig=comp(key,tree->key);
-
     if(sig<0)
     {
       tree->left=treeRemAux(tree->left,key,value,del,h,comp);
@@ -493,7 +456,7 @@ static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
                    break;
         }
       }
-      return tree;
+      aux=tree;
     }
     else if(sig>0)
     {
@@ -511,7 +474,7 @@ static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
                    break;
         }
       }
-      return tree;
+      aux=tree;
     }
     else
     {
@@ -519,39 +482,29 @@ static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
       {
         aux=tree->left;
         if(aux) aux->super=tree->super;
-
         if(del) del(tree->key);
         if(value) *value=tree->value;
-
         free(tree);
         *h=0;
-        return aux;
       }
       else if(!tree->left)
       {
         aux=tree->right;
         if(aux) aux->super=tree->super;
-
         if(del) del(tree->key);
         if(value) *value=tree->value;
-
         free(tree);
         *h=0;
-        return aux;
       }
       else
       {
         if(del) del(tree->key);
         if(value) *value=tree->value;
-
         aux=upperLeft(tree->left);
-
         tree->key=aux->key;
         tree->value=aux->value;
         aux->value=NULL;
-
         tree->left=treeRemAux(tree->left,aux->key,NULL,NULL,h,comp);
-
         if(!(*h))
         {
           switch(tree->bf)
@@ -565,128 +518,116 @@ static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
                      break;
           }
         }
-        return tree;
+        aux=tree;
       }
     }
   }
+  return aux;
 }
 
 //=============================================================================
 
 int treeRemove(TreeMap tree,void* key,void** value,void(*del)(void*))
 {
-  int h;
+  int h,result=0;
   tree->root=treeRemAux(tree->root,key,value,del,&h,tree->keyComp);
-
-  if(h==1) return 1;
-  else
-  {
-    tree->size--;
-    return 0;
-  }
+  if(h==1) result=1;
+  else tree->size--;
+  return result;
 }
 
-//#############################################################################
+//==============================================================================
 
 int treeGet(TreeMap tree,void* key,void** value)
 {
   TreeNode aux;
-  int r;
-
+  int r,result=0;
   for(r=-1,aux=tree->root;
       aux&&(r=(*tree->keyComp)(key,aux->key));
       aux=r<0?aux->left:aux->right);
-
   if(r)
   {
     *value=NULL;
-    return 1;
+    result=1;
   }
-  else
-  {
-    *value=aux->value;
-    return 0;
-  }
+  else *value=aux->value;
+  return result;
 }
 
-//#############################################################################
+//==============================================================================
 
 /**
- * Verifica se uma (sub)árvore está equilibrada na raiz e se todas as suas
- *   subárvores também estão.
+ * Checks if a tree is balanced.
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return -1 se não está equilibrada;\n
- *         altura da árvore caso contrário.
+ * @return
+ * -1 is the tree is not balanced\n
+ * tree height otherwise
  */
-int treeIsAVLAux(TreeNode tree)
+int treeIsBalancedAux(TreeNode tree)
 {
-  int left,right;
-  
-  if(!tree) return 0;
-  else
+  int left,right,result=0;
+  if(tree)
   {
-    left=treeIsAVLAux(tree->left);
-    right=treeIsAVLAux(tree->right);
-
-    if(left<0||right<0) return -1;
-    else if(left>right) return left-right>1?-1:++left;
-    else return right-left>1?-1:++right;
+    left=treeIsBalancedAux(tree->left);
+    right=treeIsBalancedAux(tree->right);
+    if(left<0||right<0) result=-1;
+    else if(left>right) result=left-right>1?-1:++left;
+    else result=right-left>1?-1:++right;
   }
+  return result;
 }
 
 //=============================================================================
 
-int treeIsAVL(TreeMap tree)
+int treeIsBalanced(TreeMap tree)
 {
-  return(treeIsAVLAux(tree->root)==-1?0:1);
+  return treeIsBalancedAux(tree->root)==-1?0:1;
 }
 
-//#############################################################################
+//==============================================================================
 
 /**
- * Determina a altura de uma (sub)árvore.
+ * Returns the height of a tree.
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return altura da árvore.
+ * @return the height of the tree
  */
 static int treeHightAux(TreeNode tree)
 {
-  int hLeft,hRight;
-  
-  if(!tree) return 0;
-  else
+  int hLeft,hRight,result=0;
+  if(tree)
   {
     hLeft=treeHightAux(tree->left);
     hRight=treeHightAux(tree->right);
-
-    return(hLeft>hRight ? ++hLeft:++hRight);
+    result=hLeft>hRight?++hLeft:++hRight;
   }
+  return result;
 }
 
 //=============================================================================
 
 int treeHeight(TreeMap tree)
 {
-  if(!tree->size) return 0;
-  else return treeHightAux(tree->root);
+  return treeHightAux(tree->root);
 }
 
-//#############################################################################
+//==============================================================================
 
 int treeSize(TreeMap tree)
 {
-  return(tree->size);
+  return tree->size;
 }
-//#############################################################################
+
+//==============================================================================
 
 /**
- * Função auxiliar da função que efectua uma travessia @e In-Order da árvore.
+ * Inorder traversal auxiliary function.
  *
- * @param tree árvore.
- * @param fun  função que é aplicada aos elementos da árvore.
+ * @param tree the tree
+ * @param fun  the function to be applied
  */
 static void treeInOAux(TreeNode tree,void(*fun)(void*,void*))
 {
@@ -702,29 +643,28 @@ static void treeInOAux(TreeNode tree,void(*fun)(void*,void*))
 
 int treeInOrder(TreeMap tree,void(*fun)(void*,void*))
 {
-  if(!tree->size) return 1;
-  else
-  {
-    treeInOAux(tree->root,fun);
-    return 0;
-  }
+  int result=0;
+  if(!tree->size) result=1;
+  else treeInOAux(tree->root,fun);
+  return result;
 }
 
-//#############################################################################
+//==============================================================================
 
 /**
- * Função auxiliar da função que efectua uma travessia @e Pre-Order da árvore.
+ * Preorder traversal auxiliary function.
  *
- * @param tree árvore.
- * @param fun  função que é aplicada aos elementos da árvore.
+ * @param tree the tree
+ * @param fun  the function to be applied
  */
-static void treePrOAux(TreeNode tree,void(*fun)(void*,void*))
+
+static void treePreOrderAux(TreeNode tree,void(*fun)(void*,void*))
 {
   if(tree)
   {
     fun(tree->key,tree->value);
-    treePrOAux(tree->left,fun);
-    treePrOAux(tree->right,fun);
+    treePreOrderAux(tree->left,fun);
+    treePreOrderAux(tree->right,fun);
   }
 }
 
@@ -732,66 +672,62 @@ static void treePrOAux(TreeNode tree,void(*fun)(void*,void*))
 
 int treePreOrder(TreeMap tree,void(*fun)(void*,void*))
 {
-  if(!tree->size) return 1;
-  else
-  {
-    treePrOAux(tree->root,fun);
-    return 0;
-  }
+  int result=0;
+  if(!tree->size) result=1;
+  else treePreOrderAux(tree->root,fun);
+  return result;
 }
 
-//#############################################################################
+//==============================================================================
 
 /**
- * Função auxiliar da função que efectua uma travessia @e Pos-Order da árvore.
+ * Postorder traversal auxiliary function.
  *
- * @param tree árvore.
- * @param fun  função que é aplicada aos elementos da árvore.
+ * @param tree the tree
+ * @param fun  the function to be applied
  */
-static void treePsOAux(TreeNode tree,void(*fun)(void*,void*))
+static void treePostOrderAux(TreeNode tree,void(*fun)(void*,void*))
 {
   if(tree)
   {
-    treePsOAux(tree->left,fun);
-    treePsOAux(tree->right,fun);
+    treePostOrderAux(tree->left,fun);
+    treePostOrderAux(tree->right,fun);
     fun(tree->key,tree->value);
   }
 }
 
 //=============================================================================
 
-int treePosOrder(TreeMap tree,void(*fun)(void*,void*))
+int treePostOrder(TreeMap tree,void(*fun)(void*,void*))
 {
-  if(!tree->size) return 1;
-  else
-  {
-    treePsOAux(tree->root,fun);
-    return 0;
-  }
+  int result=0;
+  if(!tree->size) result=1;
+  else treePostOrderAux(tree->root,fun);
+  return result;
 }
 
-//#############################################################################
+//=============================================================================
 
 /**
- * Percorre uma (sub)árvore e adiciona as chaves a um iterador.
+ * Traverses a tree and adds the keys to an iterator.
  *
- * @param tree árvore.
- * @param it   iterador onde são colocadas as chaves.
+ * @param tree the tree
+ * @param it   the iterator
  *
- * @return 1 se ocorrer algum erro;\n
- *         0 caso contrário.
+ * @return
+ * 1 if an error occurred\n
+ * 0 otherwise
  */
 static int treeKAux(TreeNode tree,Iterator it)
 {
-  int r=0;
+  int result=0;
   if(tree)
   {
-    r=treeKAux(tree->left,it);
-    r=r||itAdd(it,tree->key);
-    r=r||treeKAux(tree->right,it);
+    result=treeKAux(tree->left,it);
+    result=result||itAdd(it,tree->key);
+    result=result||treeKAux(tree->right,it);
   }
-
-  return r;
+  return result;
 }
 
 //=============================================================================
@@ -799,38 +735,37 @@ static int treeKAux(TreeNode tree,Iterator it)
 Iterator treeKeys(TreeMap tree)
 {
   Iterator it=newIt(tree->size);
-  if(!it) return NULL;
-  else if(treeKAux(tree->root,it))
+  if(it&&treeKAux(tree->root,it))
   {
     itDelete(it);
-    return NULL;
+    it=NULL;
   }
-  else return it;
+  return it;
 }
 
-//#############################################################################
+//=============================================================================
 
 /**
- * Percorre uma (sub)árvore e adiciona os valores associados às chaves a um
- *   iterador.
+ * Traverses a tree and adds the values to an iterator.
  *
- * @param tree árvore.
- * @param it   iterador onde são colocadas os valores associados às chaves.
+ * @param tree the tree
+ * @param it   the iterator
  *
- * @return 1 se ocorrer algum erro;\n
- *         0 caso contrário.
+ * @return
+ * 1 if an error occurred\n
+ * 0 otherwise
  */
+
 static int treeVAux(TreeNode tree,Iterator it)
 {
-  int r=0;
+  int result=0;
   if(tree)
   {
-    r=treeVAux(tree->left,it);
-    r=r||itAdd(it,tree->value);
-    r=r||treeVAux(tree->right,it);
+    result=treeVAux(tree->left,it);
+    result=result||itAdd(it,tree->value);
+    result=result||treeVAux(tree->right,it);
   }
-
-  return r;
+  return result;
 }
 
 //=============================================================================
@@ -838,10 +773,10 @@ static int treeVAux(TreeNode tree,Iterator it)
 Iterator treeValues(TreeMap tree)
 {
   Iterator it=newIt(tree->size);
-  if(treeVAux(tree->root,it))
+  if(it&&treeVAux(tree->root,it))
   {
     itDelete(it);
-    return NULL;
+    it=NULL;
   }
-  else return it;
+  return it;
 }

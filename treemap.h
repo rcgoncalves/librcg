@@ -1,276 +1,283 @@
 /**
- * Implementação de uma árvore binária de pesquisa equilibrada.
- * Esta biblioteca disponibiliza um conjunto de funções que permitem manipular
- *   uma árvore binária de pesquisa equilibrada.\n
+ * Implementation of an AVL tree (self-balancing binary search tree).
  *
- * Na criação de uma árvore é necessário especificar a função que compara as
- *   chaves.
- * @htmlonly <a id="func" name="func"></a>@endhtmlonly
+ * This library provides functions to create and manage an AVL tree.
  *
- * <tt>int keyComp(void* key1,void* key2)</tt>\n
- * (usada pelas funções <tt>@ref treeInsert</tt>, <tt>@ref treeRemove</tt> e 
- * <tt>@ref treeGet</tt>); deve devolver um valor menor do que 0 se @a key1 for
- * menor do que @a key2, um valor maior do que 0 se @a key1 for maior do que
- * @a key2 e 0 caso contrário; pode ser alterada através da função <tt>@ref
- * treeSetKComp</tt>.
-@code
+ * To use this tree you have to provide the following function for the date type
+ * used for keys:
+ *
+ * <tt>int keyComp(void* key1,void* key2)</tt>
+ * Compares two keys (used by <tt>@ref treeInsert</tt>,
+ * <tt>@ref treeRemove</tt>, and <tt>@ref treeGet</tt>). It should return 0 if
+ * <tt>key1</tt> is equal to <tt>key2</tt>, a value less than 0 if <tt>key1</tt>
+ * is less than <tt>key2</tt>, and a value greater than 0 if <tt>key1</tt> is
+ * greater than 0.  This function can be changed using function
+ * <tt>@ref treeSetKComp</tt>.
+ *
+\code
 int keyComp(void* key1,void* key2)
 {
   if(key1&&key2) return strcmp((char*)key1,(char*)key2);
   else return 0;
 }
-@endcode
- * 
+\endcode
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file treemap.h
- * @version 2.0.2
- * @date 02/2009
+ * @version 3.0
+ * @date 07/2012
  */
-#ifndef _TREEMAP_
-#define _TREEMAP_
+#ifndef _TREEMAP_H_
+#define _TREEMAP_H_
 
 #include "iterator.h"
 
 /**
- * Tipo que indica para onde uma árvore está balanceada.
+ * Type that defines the balance factor of a tree.
  */
 typedef enum eBFactor{L,E,R}BFactor;
 
 /**
- * Estrutura do nodo da árvore.
+ * Tree node structure.
  */
 typedef struct sTreeNode
 {
-  ///Apontador para a chave do nodo.
+  ///Node's key.
   void* key;
-  ///Apontador para o valor associado à chave.
+  ///Node's value.
   void* value;
-  ///Factor de balanceamento.
+  ///Node's balance factor.
   BFactor bf;
-  ///Apontador para o nodo superior.
+  ///Node's parent.
   struct sTreeNode* super;
-  ///Apontador para a subárvore esquerda.
+  ///Node's left subtree.
   struct sTreeNode* left;
-  ///Apontador para a subárvore direita.
+  ///Node's right subtree.
   struct sTreeNode* right;
 }STreeNode;
 
 /**
- * Definição do apontador para os nodos da árvore.
+ * Tree node definition.
  */
 typedef STreeNode* TreeNode;
 
 /**
- * Estrutura de uma árvore.
+ * Tree structure.
  */
 typedef struct sTreeMap
 {
-  ///Função que compara duas chaves.
+  ///Key comparison function of this tree.
   int(*keyComp)(void*,void*);
-  ///Número de elementos da árvore.
+  ///Number of elements of this tree.
   int size;
-  ///Apontador para a raiz da árvore.
+  ///Root node of this tree.
   TreeNode root;
 }STreeMap;
 
 /**
- * Definição da árvore.
+ * Tree definition.
  */
 typedef STreeMap* TreeMap;
 
-//##############################################################################
+//==============================================================================
 
 /**
- * Cria uma árvore.
- * Se não for possível criar a árvore devolve NULL.
- * Tem que ser especificada a função que compara chaves.
- * Esta função pode ser alterada a qualquer momento, utilizando a função
- *   <tt>@ref treeSetKComp</tt>.
+ * Creates a tree.
  *
- * @htmlonly (Ver <a href=#func>descrição das funções</a>)@endhtmlonly
+ * @param keyComp the comparison function
  *
- * @param keyComp função que compara duas chaves.
- *
- * @return árvore inicializada ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the new tree otherwise
+
  */
 TreeMap newTree(int(*keyComp)(void*,void*));
 
 /**
- * Altera a função que compara as chaves de uma árvore.
- * O valor de @a keyComp não pode ser NULL.
+ * Sets the comparison function of this tree.
  *
- * @param tree    árvore.
- * @param keyComp nova função.
+ * @param tree    the tree
+ * @param keyComp the new comparison function
  *
- * @return 1 se @a keyComp for NULL (não é efectuada qualquer alteração);\n
- *         0 caso contrário.
+ * @return
+ * 1 if <tt>keyComp</tt> was equal to <tt>NULL</tt> (no change was made)\n
+ * 0 otherwise
  */
 int treeSetKComp(TreeMap tree,int(*keyComp)(void*,void*));
 
 /**
- * Elimina uma árvore.
+ * Deletes a tree.
  *
- * @attention apenas liberta a memória referente à estrutura da árvore; não
- *            liberta o espaço ocupado pelos elementos nela contidos.
+ * @attention
+ * This function only free the memory used by the tree.  It does not free the
+ * memory used by elements the tree contains.
  *
- * @param tree árvore.
+ * @param tree the tree to be deleted
  */
 void treeDelete(TreeMap tree);
 
 /**
- * Insere um par chave/valor numa árvore.
- * Caso a chave já exista, a variável @a replace determina se o valor antigo é
- *   ou não substituído (caso seja não há substituição, caso tenha outro valor
- *   o novo elemento é inserido).
+ * Associates a value to a key in a tree.
  *
- * @param tree    árvore.
- * @param key     chave.
- * @param value   valor associado à chave.
- * @param replace variável que determina se os elementos já existentes são ou
- *                não substituídos.
+ * If the key already had a value, the <tt>replace</tt> argument specifies
+ * whether the new element should be added (it will be added only if
+ * <tt>replace!=0</tt>).
  *
- * @return 0 se o elemento for inserido;\n
- *         1 se a árvore já possuia a chave indicada;\n
- *         2 caso não seja possível alocar memória para o novo elemento.
+ * @param tree    the tree
+ * @param key     the key
+ * @param value   the value to be inserted
+ * @param replace specifies whether an old value shall be replaced
+ *
+ * @return
+ * 0 if the value was inserted\n
+ * 1 if the key already had a value\n
+ * 2 if an error occurred
  */
 int treeInsert(TreeMap tree,void* key,void* value,int replace);
 
 /**
- * Remove um elemento de uma árvore.
- * Permite devolver o valor removido, caso o valor de @a value seja diferente de
- *   NULL.
- * Se a chave não existir ou o elemento não for removido é colocado o valor NULL
- *   em @a value.
+ * Removes the mapping for a key from a tree.
  *
- * @attention esta função não liberta o espaço ocupado pelo valor associado à
- *            chave; já o espaço ocupado pela chave removida, se @a del for
- *            diferente de NULL, será libertado.
+ * Provides the value of the removed element if the value of <tt>elem</tt> is
+ * not <tt>NULL</tt>.
  *
- * @param tree  árvore.
- * @param key   chave que queremos remover.
- * @param value endereço onde é colocado o elemento removido (ou NULL).
- * @param del   função que elimina uma chave (ou NULL).
+ * @attention
+ * This function does not free the memory used by the removed element.
+ * To free the memory used by its key, you have to provide the argument
+ * <tt>del</tt>.
  *
- * @return 0 se o elemento for removido;\n
- *         1 se a chave não existir;\n
+ * @param tree  the tree
+ * @param key   key whose mapping is to be removed
+ * @param value pointer where the removed element shall be put (or
+ * <tt>NULL</tt>)
+ * @param del   function to free the memory used by the key (or <tt>NULL</tt>)
+ *
+ * @return
+ * 0 if an element was removed from the specified position\n
+ * 1 otherwise
  */
 int treeRemove(TreeMap tree,void* key,void** value,void(*del)(void*));
 
 /**
- * Procura um elemento numa árvore.
- * Devolve o valor associado a uma chave, se esta existir.
- * Se a chave não existir é colocado o valor NULL em @a value.
+ * Provides the mapping for a key from a tree.
  *
- * @attention esta função coloca em @a value o endereço do valor pretendido;
- *            depois de executar esta função é aconselhável fazer uma cópia do
- *            mesmo e passar a trabalhar com a cópia para que não haja problemas
- *            de partilha de referências.
- * 
- * @param tree  árvore.
- * @param key   chave que procuramos.
- * @param value endereço onde é colocado o resultado.
+ * If there is no mapping for the specified key, it will be put the value
+ * <tt>NULL</tt> at <tt>value</tt>.  However, the <tt>NULL</tt> value may also
+ * say that the mapping for the specified key was <tt>NULL</tt>.  Check the
+ * returned value in order to know whether the key was in the tree.
  *
- * @return 0 se o elemento existir;\n
- *         1 se o elemento não existir.
+ * @attention
+ * This function puts at <tt>value</tt> a pointer to the mapping of the
+ * specified key.  Changes to this value will affect the value in the tree.
+ *
+ * @param tree  the tree
+ * @param key   key whose mapping is to be provided
+ * @param value pointer where the mapping value will be put
+ *
+ * @return
+ * 0 if there was a mapping for the specified key\n
+ * 1 otherwise
  */
 int treeGet(TreeMap tree,void* key,void** value);
 
 /**
- * Verifica se uma árvore está equilibrada.
- * Considera-se que a árvore está equilibrada se a diferença entre a altura das
- *   subárvores esquerda e direita (em todos os nodos) não for superior a 1.
+ * Checks if a tree is balanced.
  *
- * @param tree árvore.
+ * A tree is balanced if, for each node of the tree, the difference between the
+ * height of the left subtree and the height of right subtree is not greater than
+ * 1.
  *
- * @return 0 se a árvore não estiver equilibrada;\n
- *         1 caso contrário.
+ * @param tree the tree
+ *
+ * @return
+ * 0 if the tree is not balanced\n
+ * 1 otherwise
  */
-int treeIsAVL(TreeMap tree);
+int treeIsBalanced(TreeMap tree);
 
 /**
- * Determina a altura de uma árvore.
+ * Returns the height of a tree.
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return altura da árvore.
+ * @return the height of the tree
  */
 int treeHeight(TreeMap tree);
 
 /**
- * Determina o número de elementos de uma árvore.
- * Devolve o valor do campo @a size da árvore.
+ * Returns the number of elements present in a tree. 
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return número de elementos da árvore.
+ * @return the number of elements present in the tree.
  */
 int treeSize(TreeMap tree);
 
 /**
- * Efectua uma travessia @e In-Order de uma árvore.
- * Aplica a função @c fun a todos os elementos da árvore.\n
- * A função @c fun tem que ser do tipo: <tt>void fun(void*,void*)</tt>.
- * 
- * @param tree árvore.
- * @param fun  função a ser aplicada.
+ * Applies a function to the elements of an tree (inorder traversal).
  *
- * @return 0 se a árvore não estiver vazia;\n
- *         1 se a árvore estiver vazia.
+ * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
+ *
+ * @param array the array
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the array was not empty\n
+ * 1 otherwise
  */
 int treeInOrder(TreeMap tree,void(*fun)(void*,void*));
 
 /**
- * Efectua uma travessia @e Pre-Order de uma árvore.
- * Aplica a função @c fun a todos os elementos da árvore.\n
- * A função @c fun tem que ser do tipo: <tt>void fun(void*,void*)</tt>.
- * 
- * @param tree árvore.
- * @param fun  função a ser aplicada.
+ * Applies a function to the elements of an tree (preorder traversal).
  *
- * @return 0 se a árvore não estiver vazia;\n
- *         1 se a árvore estiver vazia.
+ * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
+ *
+ * @param array the array
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the array was not empty\n
+ * 1 otherwise
  */
 int treePreOrder(TreeMap tree,void(*fun)(void*,void*));
 
 /**
- * Efectua uma travessia @e Pos-Order de uma árvore.
- * Aplica a função @c fun a todos os elementos da árvore.\n
- * A função @c fun tem que ser do tipo: <tt>void fun(void*,void*)</tt>.
- * 
- * @param tree árvore.
- * @param fun  função a ser aplicada.
+ * Applies a function to the elements of an tree (postorder traversal).
  *
- * @return 0 se a árvore não estiver vazia;\n
- *         1 se a árvore estiver vazia.
+ * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
+ *
+ * @param array the array
+ * @param fun   the function to be applied
+ *
+ * @return
+ * 0 if the array was not empty\n
+ * 1 otherwise
  */
-int treePosOrder(TreeMap tree,void(*fun)(void*,void*));
+int treePostOrder(TreeMap tree,void(*fun)(void*,void*));
 
 /**
- * Cria um iterador a partir das chaves de uma árvore.
- * Faz uma travessia @e In-Order da árvore e "coloca" as referências para as
- *   chaves num iterador.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from the keys of a tree.
  *
  * @see Iterator
  *
- * @param tree árvore.
+ * @param tree the tree
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator treeKeys(TreeMap tree);
 
 /**
- * Cria um iterador a partir dos valores associados às chaves de uma árvore.
- * Faz uma travessia @e In-Order da árvore e "coloca" as referências para os 
- *   "valores" num iterador.
- * Se ocorrer algum erro a função devolve NULL.
+ * Creates an iterator from the values of a tree.
  *
  * @see Iterator
  *
- * @param tree árvore.
+ * @param the tree
  *
- * @return iterador criado ou NULL.
+ * @return
+ * <tt>NULL</tt> if an error occurred\n
+ * the iterator otherwise
  */
 Iterator treeValues(TreeMap tree);
 
