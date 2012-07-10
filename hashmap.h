@@ -8,7 +8,7 @@
  * the hash table is resized.
  *
  * To use this hash table you have to provide the following functions for the
- * data type been used as key:
+ * data type used for keys:
  *
  * <ul id="func">
  * <li><tt>int hash(void *)</tt>
@@ -167,7 +167,7 @@ int hashSetFactor(HashMap hmap,int factor);
  *
  * @attention
  * This function only free the memory used by the hash table.  It does not free
- * the memory used by elements the hash table contais.
+ * the memory used by elements the hash table contains.
  *
  * @param hmap the hash table to be deleted
  */
@@ -183,7 +183,7 @@ void hashDelete(HashMap hmap);
  * @param hmap    the hash table
  * @param key     the key
  * @param value   the value to be inserted
- * @param replace specify whether old value will be replaced
+ * @param replace specifies whether an old value shall be replaced
  *
  * @return
  * 0 if the value was inserted\n
@@ -205,7 +205,7 @@ int hashInsert(HashMap hmap,void* key,void* value,int replace);
  *
  * @param hmap  the hash table
  * @param key   key whose mapping is to be removed
- * @param value pointer where the removed element should be put (or
+ * @param value pointer where the removed element shall be put (or
  * <tt>NULL</tt>)
  * @param del   function to free the memory used by the key (or <tt>NULL</tt>)
  *
@@ -220,7 +220,7 @@ int hashRemove(HashMap hmap,void* key,void** value,void(*del)(void*));
  *
  * If there is no mapping for the specified key, it will be put the value
  * <tt>NULL</tt> at <tt>value</tt>.  However, the <tt>NULL</tt> value may also
- * say that the mapping was for the specified key was <tt>NULL</tt>.  Check the
+ * say that the mapping for the specified key was <tt>NULL</tt>.  Check the
  * returned value in order to know whether the key was in the hash table.
  *
  * @attention

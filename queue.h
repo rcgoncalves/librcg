@@ -128,16 +128,6 @@ int queueConsult(Queue queue,void** value);
 int queueSize(Queue queue);
 
 /**
- * Aplica uma função aos elementos de uma queue começando pela cabeça.
- * A função @c fun tem que ser do tipo: @c void @c fun(void*).
- *
- * @param queue queue.
- * @param fun   função a ser aplicada.
- *
- * @return 0 se a queue não estiver vazia;\n
- *         1 se a queue estiver vazia.
- */
-/**
  * Applies a function to the elements of a queue.
  *
  * The function to be applied must be of type <tt>void fun(void*)</tt>.

@@ -210,7 +210,7 @@ int hashGet(HashMap hmap,void* key,void** value)
 
 int hashSize(HashMap hmap)
 {
-  return(hmap->size);
+  return hmap->size;
 }
 
 //==============================================================================
