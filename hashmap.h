@@ -1,7 +1,7 @@
 /**
  * Implementation of a hash table.
  *
- * This library provides functions to create an manage a hash table.
+ * This library provides functions to create and manage a hash table.
  *
  * Collisions are handled using having a list for each buckets.  When the
  * number of elements is greater than a specified ratio of the number of buckets
