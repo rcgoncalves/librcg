@@ -7,8 +7,8 @@
  * number of elements is greater than a specified ratio of the number of buckets
  * the hash table is resized.
  *
- * To use this hash table you have to provide functions for the data type to be
- * used with the hash table.  The following functions are needed:
+ * To use this hash table you have to provide the following functions for the
+ * data type been used as key:
  *
  * <ul id="func">
  * <li><tt>int hash(void *)</tt>
