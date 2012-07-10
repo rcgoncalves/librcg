@@ -4,7 +4,7 @@
  * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file rlp.c
  * @version 3.0
- * @date 05/2012
+ * @date 07/2012
  */
 #include <stdio.h>
 #include <float.h>
@@ -62,7 +62,7 @@ static void fmprint(double* matrix,int nrows,int ncols,FILE* file)
  * @param matrix the matrix
  * @param nrows  the number of rows
  * @param ncols  the number of columns
- * @param col    the column
+ * @param col    the column index
  * @param row    pointer where the row that contains the minimum value will be
  *               put
  *
@@ -87,23 +87,12 @@ static double minimumc(double* matrix,int nrows,int ncols,int col,int* row)
 //==============================================================================
 
 /**
- * Determina o menor valor de uma linha de uma matriz.
- *
- * @param matrix matriz onde procuramos o valor.
- * @param ncols  número de colunas da matriz.
- * @param row    linha onde vamos procurar.
- * @param col    local onde é colocado o índice da coluna em que o elemento
- *               ocorreu.
- *
- * @return mínimo valor encontrado na linha @a row da matriz @a matrix.
- */
-/**
  * Finds the minimum value of a matrix's row.
  *
- * @param matrix the matrix
+ * @param matrix the matrix row
  * @param ncols  the number of columns
- * @param row    the row
- * @param col    pointer where the col that contains the minimum value will be
+ * @param row    the row index
+ * @param col    pointer where the row that contains the minimum value will be
  *               put
  *
  * @return
