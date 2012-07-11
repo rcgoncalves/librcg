@@ -43,7 +43,7 @@ int trimEnd(char* str);
 int trim(char* str);
 
 /**
- * Checks if there is an occurrence of a specif character in a string.
+ * Checks if there is an occurrence of a specific character in a string.
  *
  * @param c   the character
  * @param str the string
