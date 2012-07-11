@@ -163,7 +163,7 @@ int hashSetEquals(HashMap hmap,int(*equals)(void*,void*));
 int hashSetFactor(HashMap hmap,int factor);
 
 /**
- * Deletes an hash table.
+ * Deletes a hash table.
  *
  * @attention
  * This function only free the memory used by the hash table.  It does not free
@@ -193,7 +193,7 @@ void hashDelete(HashMap hmap);
 int hashInsert(HashMap hmap,void* key,void* value,int replace);
 
 /**
- * Removes the mapping for a key from an hash table.
+ * Removes the mapping for a key from a hash table.
  *
  * Provides the value of the removed element if the value of <tt>elem</tt> is
  * not <tt>NULL</tt>.
@@ -249,7 +249,7 @@ int hashGet(HashMap hmap,void* key,void** value);
 int hashSize(HashMap hmap);
 
 /**
- * Creates an iterator from the keys of an hash table.
+ * Creates an iterator from the keys of a hash table.
  *
  * @see Iterator
  *
@@ -262,7 +262,7 @@ int hashSize(HashMap hmap);
 Iterator hashKeys(HashMap hmap);
 
 /**
- * Creates an iterator from the values of an hash table.
+ * Creates an iterator from the values of a hash table.
  *
  * @see Iterator
  *
