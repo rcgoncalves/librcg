@@ -1,7 +1,7 @@
 /**
  * Implementation of a dynamic array.
  *
- * This library provides functions to create a dynamic array with a desired
+ * Provides functions to create and manipulate a dynamic array with a desired
  * length.
  *
  * The array can resize itself whenever needed, while preserving the previous

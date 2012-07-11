@@ -1,7 +1,7 @@
 /**
  * Implementation of an AVL tree (self-balancing binary search tree).
  *
- * This library provides functions to create and manage an AVL tree.
+ * Provides functions to create and manipulate an AVL tree.
  *
  * To use this tree you have to provide the following function for the date type
  * used for keys:
@@ -200,7 +200,8 @@ int treeIsBalanced(TreeMap tree);
  *
  * @param tree the tree
  *
- * @return the height of the tree
+ * @return
+ * the height of the tree
  */
 int treeHeight(TreeMap tree);
 
@@ -209,7 +210,8 @@ int treeHeight(TreeMap tree);
  *
  * @param tree the tree
  *
- * @return the number of elements present in the tree.
+ * @return
+ * the number of elements present in the tree.
  */
 int treeSize(TreeMap tree);
 

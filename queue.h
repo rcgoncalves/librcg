@@ -1,6 +1,8 @@
 /**
  * Implementation of a queue as linked list.
  *
+ * Provides functions to create and manipulate a queue.
+ *
  * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file queue.h
  * @version 3.0
@@ -112,8 +114,9 @@ int queueRemove(Queue queue,void** value);
  * @param queue the queue
  * @param value pointer where the value at the last position will be put
  *
- * @return 0 se a queue não estiver vazia;\n
- *         1 se a queue estiver vazia.
+ * @return
+ * 0 if the queue was not empty\n
+ * 1 otherwise
  */
 int queueConsult(Queue queue,void** value);
 

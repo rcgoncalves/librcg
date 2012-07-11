@@ -1,7 +1,7 @@
 /**
  * Implementation of a hash table.
  *
- * This library provides functions to create and manage a hash table.
+ * Provides functions to create and manipulate a hash table.
  *
  * Collisions are handled using having a list for each buckets.  When the
  * number of elements is greater than a specified ratio of the number of buckets
@@ -243,7 +243,8 @@ int hashGet(HashMap hmap,void* key,void** value);
  *
  * @param hmap the hash table
  *
- * @return the number of elements present in the hash table
+ * @return
+ * the number of elements present in the hash table
  */
 int hashSize(HashMap hmap);
 

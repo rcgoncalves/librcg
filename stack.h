@@ -1,7 +1,7 @@
 /**
  * Implementation of a stack as a linked list.
  *
- * This library provides functions to create and manipulate stacks.
+ * Provides functions to create and manipulate stacks.
  *
  * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file stack.h

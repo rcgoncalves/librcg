@@ -14,7 +14,8 @@
  *
  * @param tree the root of the tree to rotate
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode leftRotate(TreeNode tree)
 {
@@ -38,7 +39,8 @@ static TreeNode leftRotate(TreeNode tree)
  *
  * @param tree the root of the tree to rotate
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode rightRotate(TreeNode tree)
 {
@@ -64,7 +66,8 @@ static TreeNode rightRotate(TreeNode tree)
  *
  * @param tree the root of the tree to rebalance
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode leftBalance(TreeNode tree)
 {
@@ -112,7 +115,8 @@ static TreeNode leftBalance(TreeNode tree)
  *
  * @param tree the root of the tree to rebalance
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode rightBalance(TreeNode tree)
 {
@@ -161,7 +165,8 @@ static TreeNode rightBalance(TreeNode tree)
  * @param tree the root of the tree to rebalance
  * @param h    specifies whether the height of the tree changed
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode rLeftBalance(TreeNode tree,int* h)
 {
@@ -208,7 +213,8 @@ static TreeNode rLeftBalance(TreeNode tree,int* h)
  * @param tree the root of the tree to rebalance
  * @param h    specifies whether the height of the tree changed
  *
- * @return the new tree
+ * @return
+ * the new tree
  */
 static TreeNode rRightBalance(TreeNode tree,int* h)
 {
@@ -253,7 +259,8 @@ static TreeNode rRightBalance(TreeNode tree,int* h)
  *
  * @param tree the tree
  *
- * @return the node with the greatest key on the left subtree of the tree
+ * @return
+ * the node with the greatest key on the left subtree of the tree
  */
 static TreeNode upperLeft(TreeNode tree)
 {
@@ -327,7 +334,8 @@ void treeDelete(TreeMap tree)
  * whether an error occurred (h>0?)
  * @param comp    key comparison function
  *
- * @return new tree
+ * @return
+ * new tree
  */
 static TreeNode treeInsAux(TreeNode tree,void* key,void* val,int replace,int* h,
     int(*comp)(void*,void*))
@@ -424,7 +432,8 @@ int treeInsert(TreeMap tree,void* key,void* val,int replace)
  * @param h       specifies whether the height of the tree changed
  * @param comp    key comparison function
  *
- * @return new tree
+ * @return
+ * new tree
  */
 static TreeNode treeRemAux(TreeNode tree,void* key,void** value,
     void(*del)(void*),int* h,int(*comp)(void*,void*))
@@ -593,7 +602,8 @@ int treeIsBalanced(TreeMap tree)
  *
  * @param tree the tree
  *
- * @return the height of the tree
+ * @return
+ * the height of the tree
  */
 static int treeHightAux(TreeNode tree)
 {

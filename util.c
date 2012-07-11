@@ -78,7 +78,6 @@ int rgetsEOF(char** str)
       *str=NULL;
       result=-1;
     }
-
     for(count=0;result>=0&&(tmp=getchar())!=EOF;count++)
     {
       if(count>=length)
