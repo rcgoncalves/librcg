@@ -1,5 +1,5 @@
 /**
- * Implementação de uma lista (duplamente) ligada.
+ * Implementation of a linked list.
  *
  * @author Rui Carlos Gonçalves
  * @file list.c
