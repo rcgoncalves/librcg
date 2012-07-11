@@ -1,10 +1,10 @@
 /**
- * Implementação de uma queue como lista ligada.
+ * Implementation of a queue as linked list.
  * 
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file queue.c
- * @version 2.0.1
- * @date 08/2007
+ * @version 3.0
+ * @date 05/2012
  */
 #include <stdlib.h>
 #include "queue.h"
