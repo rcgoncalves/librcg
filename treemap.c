@@ -275,7 +275,7 @@ TreeMap newTree(int(*keyComp)(void*,void*))
   TreeMap tree=NULL;
   if(keyComp)
   {
-    tree=(TreeMap)malloc(sizeof(STreeMap));
+    tree=malloc(sizeof(STreeMap));
     if(tree)
     {
       tree->keyComp=*keyComp;
@@ -343,7 +343,7 @@ static TreeNode treeInsAux(TreeNode tree,void* key,void* val,int replace,int* h,
   int sig;
   if(!tree)
   {
-    tree=(TreeNode)malloc(sizeof(STreeNode));
+    tree=malloc(sizeof(STreeNode));
     if(tree)
     {
       tree->key=key;

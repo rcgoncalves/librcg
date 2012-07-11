@@ -14,12 +14,12 @@ Array newArray(int size)
   Array array=NULL;
   if(size>0)
   {
-    array=(Array)malloc(sizeof(SArray));
+    array=malloc(sizeof(SArray));
     if(array)
     {
       array->capacity=size;
       array->size=0;
-      array->array=(void**)calloc(size,sizeof(void*));
+      array->array=calloc(size,sizeof(void*));
       if(!array->array)
       {
         free(array);
@@ -118,7 +118,7 @@ int arrayResize(Array array,int size)
   if(array->capacity>=size) result=2;
   else
   {
-    newarray=(void**)realloc(array->array,size*sizeof(void*));
+    newarray=realloc(array->array,size*sizeof(void*));
     if(!newarray) result=1;
     else
     {

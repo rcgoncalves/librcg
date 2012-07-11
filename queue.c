@@ -11,7 +11,7 @@
 
 Queue newQueue()
 {
-  Queue queue=(Queue)malloc(sizeof(SQueue));
+  Queue queue=malloc(sizeof(SQueue));
   if(queue)
   {
     queue->size=0;
@@ -45,7 +45,7 @@ int queueInsert(Queue queue,void* value)
 {
   int result=0;
   QueueNode new;
-  new=(QueueNode)malloc(sizeof(SQueueNode));
+  new=malloc(sizeof(SQueueNode));
   if(new)
   {
     new->value=value;

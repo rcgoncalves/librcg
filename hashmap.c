@@ -26,7 +26,7 @@ static int reHash(HashMap hmap)
   int i,index,result=0;
   HashNode* new=NULL;
   HashNode this,next;
-  new=(HashNode*)calloc(hmap->length*2,sizeof(HashNode));
+  new=calloc(hmap->length*2,sizeof(HashNode));
   if(!new) result=1;
   else
   {
@@ -55,7 +55,7 @@ HashMap newHash(int size,float factor,int(*hash)(void*),
   HashMap hmap=NULL;
   if(hash&&equals)
   {
-    hmap=(HashMap)malloc(sizeof(SHashMap));
+    hmap=malloc(sizeof(SHashMap));
     if(hmap)
     {
       hmap->size=0;
@@ -64,7 +64,7 @@ HashMap newHash(int size,float factor,int(*hash)(void*),
       else hmap->factor=factor;
       hmap->hash=*hash;
       hmap->equals=*equals;
-      hmap->elems=(HashNode*)calloc(size,sizeof(HashNode));
+      hmap->elems=calloc(size,sizeof(HashNode));
       if(!hmap->elems)
       {
 	free(hmap);
@@ -144,7 +144,7 @@ int hashInsert(HashMap hmap,void* key,void* value,int replace)
     }
     if(!stop)
     {
-      aux=(HashNode)malloc(sizeof(SHashNode));
+      aux=malloc(sizeof(SHashNode));
       if(aux)
       {
         aux->key=key;

@@ -14,13 +14,13 @@ Iterator newIt(int size)
   Iterator it=NULL;
   if(size>0)
   {
-    it=(Iterator)malloc(sizeof(SIterator));
+    it=malloc(sizeof(SIterator));
     if(it)
     {
       it->capacity=size;
       it->size=0;
       it->pos=0;
-      it->values=(void**)calloc(size,sizeof(void*));
+      it->values=calloc(size,sizeof(void*));
       if(!it->values)
       {
         free(it);

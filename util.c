@@ -32,7 +32,7 @@ int rgets(char** str)
   else
   {
     length=BUFSIZE;
-    str1=(char*)malloc((length+1)*sizeof(char));
+    str1=malloc((length+1)*sizeof(char));
     if(!str)
     {
       *str=NULL;
@@ -43,7 +43,7 @@ int rgets(char** str)
       if(count>=length)
       {
         length*=2;
-        str2=(char*)realloc(str1,length+1);
+        str2=realloc(str1,length+1);
         if(!str2)
         {
           free(str1);
@@ -72,7 +72,7 @@ int rgetsEOF(char** str)
   else
   {
     length=BUFSIZE;
-    str1=(char*)malloc((length+1)*sizeof(char));
+    str1=malloc((length+1)*sizeof(char));
     if(!str1)
     {
       *str=NULL;
@@ -83,7 +83,7 @@ int rgetsEOF(char** str)
       if(count>=length)
       {
         length*=2;
-        str2=(char*)realloc(str1,length+1);
+        str2=realloc(str1,length+1);
         if(!str2)
         {
           free(str1);

@@ -12,7 +12,7 @@
 
 Stack newStack()
 {
-  Stack stack=(Stack)malloc(sizeof(SStack));
+  Stack stack=malloc(sizeof(SStack));
   if(stack)
   {
     stack->size=0;
@@ -45,7 +45,7 @@ int stackPush(Stack stack,void* value)
 {
   int result=0;
   StackNode new;
-  new=(StackNode)malloc(sizeof(SStackNode));
+  new=malloc(sizeof(SStackNode));
   if(new)
   {
     stack->size++;

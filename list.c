@@ -12,7 +12,7 @@
 
 List newList()
 {
-  List list=(List)malloc(sizeof(SList));
+  List list=malloc(sizeof(SList));
   if(list)
   {
     list->size=0;
@@ -45,7 +45,7 @@ int listInsertFst(List list,void* value)
   ListNode new;
   if(!list->size)
   {
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
@@ -59,7 +59,7 @@ int listInsertFst(List list,void* value)
   }
   else
   {
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
@@ -82,7 +82,7 @@ int listInsertLst(List list,void* value)
   ListNode new;
   if(!list->size)
   {
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
@@ -96,7 +96,7 @@ int listInsertLst(List list,void* value)
   }
   else
   {
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
@@ -123,7 +123,7 @@ int listInsertAt(List list,int index,void* value)
   else if(index>size/2)
   {
     for(index=size-index,aux=list->last;index>0;index--,aux=aux->prev);
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
@@ -138,7 +138,7 @@ int listInsertAt(List list,int index,void* value)
   else
   {
     for(aux=list->first;index>0;index--,aux=aux->next);
-    new=(ListNode)malloc(sizeof(SListNode));
+    new=malloc(sizeof(SListNode));
     if(new)
     {
       new->value=value;
