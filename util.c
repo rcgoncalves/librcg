@@ -1,10 +1,10 @@
 /**
- * Implementação de funções auxiliares básicas.
+ * Implementation of some utility functions.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file util.c
- * @version 2.1.1
- * @date 02/2009
+ * @version 3.0
+ * @date 07/2012
  */
 #include <stdio.h>
 #include <string.h>
@@ -13,13 +13,13 @@
 #include "util.h"
 
 /**
- * Tamanho do @a buffer inicial usado nas funções <tt>@ref rgets</tt> e
- *   <tt>@ref rgetsEOF</tt>
+ * Size of the initial buffer to be used in functions <tt>rgets</tt> and
+ * <tt>rgetsEOF</tt>.
  */
 #define BUFSIZE 32
 
 /**
- * @e Semente da função <tt>@ref getRandom</tt>.
+ * Seed for <tt>@ref getRandom</tt> function.
  */
 long seed=0;
 
@@ -27,21 +27,18 @@ int rgets(char** str)
 {
   char* str1,* str2;
   char tmp;
-  int length,count;
-
-  if(!str) return -2;
+  int length,count,result=0;
+  if(!str) result=-2;
   else
   {
     length=BUFSIZE;
     str1=(char*)malloc((length+1)*sizeof(char));
-
     if(!str)
     {
       *str=NULL;
-      return -1;
+      result=-1;
     }
-
-    for(count=0;(tmp=getchar())!='\n';count++)
+    for(count=0;result>=0&&(tmp=getchar())!='\n';count++)
     {
       if(count>=length)
       {
@@ -51,41 +48,38 @@ int rgets(char** str)
         {
           free(str1);
           *str=NULL;
-          return -1;
+          result=-1;
         }
         else str1=str2;
       }
-
       str1[count]=tmp;
     }
-
     str1[count]='\0';
     *str=str1;
-    return count;
+    result=count;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int rgetsEOF(char** str)
 {
   char* str1,* str2;
   char tmp;
-  int length,count;
-
-  if(!str) return -2;
+  int length,count,result=0;
+  if(!str) result=-2;
   else
   {
     length=BUFSIZE;
     str1=(char*)malloc((length+1)*sizeof(char));
-    
     if(!str1)
     {
       *str=NULL;
-      return -1;
+      result=-1;
     }
 
-    for(count=0;(tmp=getchar())!=EOF;count++)
+    for(count=0;result>=0&&(tmp=getchar())!=EOF;count++)
     {
       if(count>=length)
       {
@@ -95,120 +89,112 @@ int rgetsEOF(char** str)
         {
           free(str1);
           *str=NULL;
-          return -1;
+          result=-1;
         }
         else str1=str2;
       }
-
       str1[count]=tmp;
     }
-
     str1[count]='\0';
     *str=str1;
-    return count;
+    result=count;
   }
+  return result;
 }
 
-//##############################################################################
+//==============================================================================
 
 int rngets(char *str,int dim)
 {
   int length;
-
   str[dim-1]=str[dim-2]=1;
   fgets(str,dim,stdin);
-
   if(str[dim-1]=='\0'&&str[dim-2]!='\n') 
   {
     while(getchar()!='\n');
-    return -1;
+    length=-1;
   }
   else
   {
     length=strlen(str)-1;
     str[length]='\0';
-    return length;
   }
+  return length;
 }
 
-//##############################################################################
+//==============================================================================
 
 int getRandom(int min,int max)
 {
-  int r;
-
-  if(!seed)
-  {
-    time(&seed);
-    srand((unsigned)seed);
-  }
-
-  r=min+rand()%(max-min+1);
-  
-  return r;
-}
-
-//##############################################################################
-
-/**
- * Efectua a junção de duas partes (ordenadas) de um array.
- *
- * @param vals  array com os valores.
- * @param begin início da primeira parte do array.
- * @param midle início da segunda parte do array.
- * @param end   fim da segunda parte do array.
- * @param comp  função que compara os elementos do array.
- *
- * @return 1 se ocorrer algum erro;\n
- *         0 caso contrário.
- */
-static int merge(void* vals[],int begin,int midle,int end,
-    int(*comp)(void*,void*))
-{
-  int i,j,k;
-  int sizeLeft=midle-begin;
-  int sizeRight=end-midle+1;
-
-  void** left=calloc(sizeLeft,sizeof(void*));
-  void** right=calloc(sizeRight,sizeof(void*));
-
-  if(!left||!right) return 1;
+  int result;
+  if(max<min) result=0;
   else
   {
-    for(i=0;i<sizeLeft;i++) left[i]=vals[begin+i];
-    for(i=0;i<sizeRight;i++) right[i]=vals[midle+i];
-
-    for(i=0,j=0,k=begin;k<=end;k++)
+    if(!seed)
     {
-      if(j>=sizeRight||(i<sizeLeft&&((*comp)(left[i],right[j])<0)))
+      time(&seed);
+      srand((unsigned)seed);
+    }
+    result=min+rand()%(max-min+1);
+  }
+  return result;
+}
+
+//==============================================================================
+
+/**
+ * Merges two ordered parts of an array of pointers, based on a given comparison
+ * function
+ *
+ * @param vals   the array
+ * @param begin  beginning of the first part
+ * @param middle beginning of the second part
+ * @param end    end of the second part
+ * @param comp   comparison function
+ *
+ * @return
+ * 1 if an error occurred\n
+ * 0 otherwise
+ */
+int merge(void* vals[],int begin,int middle,int end,
+    int(*comp)(void*,void*))
+{
+  int i,j,k,result=0;
+  int size=end-begin+1;
+  int sizel=middle-begin;
+  void** copy=malloc(size*sizeof(void*));
+  if(!copy) result=1;
+  else
+  {
+    for(i=0,k=begin;i<size;i++,k++) copy[i]=vals[k];
+    for(i=0,j=sizel,k=begin;k<=end;k++)
+    {
+      if(j>=size||(i<sizel&&((*comp)(copy[i],copy[j])<0)))
       {
-        vals[k]=left[i];
-        i++;
+	vals[k]=copy[i];
+	i++;
       }
       else
       {
-        vals[k]=right[j];
-        j++;
+	vals[k]=copy[j];
+	j++;
       }
     }
-
-    return 0;
   }
+  return result;
 }
 
 //==============================================================================
 
 int mergeSort(void* vals[],int begin,int end,int(*comp)(void*,void*))
 {
-  int m,res;
-
+  int m,result=0;
   if(begin<end)
   {
     m=(begin+end)/2;
-    res+=mergeSort(vals,begin,m,*comp);
-    res+=mergeSort(vals,m+1,end,*comp);
-    res+=merge(vals,begin,m+1,end,*comp);
+    result+=mergeSort(vals,begin,m,*comp);
+    result+=mergeSort(vals,m+1,end,*comp);
+    result+=merge(vals,begin,m+1,end,*comp);
   }
-
-  return res;
+  return result;
 }

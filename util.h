@@ -1,96 +1,102 @@
 /**
- * Implementação de funções auxiliares básicas.
- * Esta biblioteca disponibiliza funções que permitem ler frases do teclado,
- *   gerar números aleatórios e ordenar vectores.
+ * Implementation of some utility functions.
  *
- * @author Rui Carlos A. Gonçalves <rcgoncalves.pt@gmail.com>
+ * Provides functions to read text from de <em>stdin</em>, to generate random
+ * numbers, and to sort arrays.
+ *
+ * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
  * @file util.h
- * @version 2.1.1
- * @date 02/2009
+ * @version 3.0
+ * @date 07/2012
  */
-#ifndef _UTIL_
-#define _UTIL_
-
+#ifndef _UTIL_H_
+#define _UTIL_H_
 
 /**
- * Lê uma frase do stdin.
- * Lê todos o caracteres inseridos até encontrar o carácter @a \\n.
- * Esta função, ao contrário da @c rngets, recebe como argumento o endereço
- *   para uma variável do tipo @c char*, e não a própria variável.
- * Se ocorrer algum erro é colocado o valor NULL em @a str.
+ * Reads a line from the <em>stdin</em>.
  *
- * @attention o espaço para a string onde será colocado o resultado é reservado
- *            pela função @c rgets, como tal @b não deve ser previamente
- *            alocado, pois se isso acontecer será perdido.
+ * Reads all characters until a <tt>\\n</tt>.
  *
- * @param str endereço da string onde será colocado o resultado.
+ * @attention
+ * The memory space where the line read will be stored is allocated by this
+ * function.  Therefore, it shall <strong>not</strong> be previously allocated.
  *
- * @return -2 se o endereço do resultado não for válido;\n
- *         -1 se ocorrer algum erro;\n
- *         tamanho da string caso contrário.
+ * @param str pointer where a string containing the line read shall be put
+ *
+ * @return
+ * -2 if the <tt>str</tt> is invalid\n
+ * -1 if an error occur\n
+ * the size of the string read otherwise
  */
 int rgets(char** str);
 
 /**
- * Lê uma frase do stdin.
- * Lê todos o caracteres inseridos até encontrar um EndOfFile.
- * Esta função, ao contrário da @c rngets, recebe como argumento o endereço
- *   para uma variável do tipo @c char*, e não a própria variável.
- * Se ocorrer algum erro é colocado o valor NULL em @a str.
+ * Reads a text from the <em>stdin</em>.
  *
- * @attention o espaço para a string onde será colocado o resultado é reservado
- *             pela função @c rgetsEOF, como tal @b não deve ser previamente
- *             alocado, pois se isso acontecer será perdido.
+ * Reads all characters until an <em>EndOfFile</em>.
  *
- * @param str endereço da string onde será colocado o resultado.
+ * @attention
+ * The memory space where the text read will be stored is allocated by this
+ * function.  Therefore, it shall <strong>not</strong> be previously allocated.
  *
- * @return -2 se o endereço do resultado não for válido;\n
- *         -1 se ocorrer algum erro;\n
- *         tamanho da string caso contrário.
+ * @param str pointer where a string containing the text read shall be put
+ *
+ * @return
+ * -2 if the <tt>str</tt> is invalid\n
+ * -1 if an error occur\n
+ * the size of the string read otherwise
  */
 int rgetsEOF(char** str);
 
 /**
- * Lê uma frase do stdin.
- * Verifica se a frase introduzida não excede a tamanho máximo (dim-2):
- * @li caso isto aconteça a frase é perdida;\n
- * @li caso contrário a frase é colocada na variável @a str (as frases lidas
- *     nunca têm o carácter @a \\n no fim).
+ * Reads a line from the <em>stdin</em>.
  *
- * @attention o espaço referenciado por @a str tem que ser previamente alocado.
+ * Reads all characters until a <tt>\\n</tt>.
+ * The line shall not exceed the size <em>dim-2</em> (the additional characters
+ * will be lost).
  *
- * @param str local onde é guardada a frase lida.
- * @param dim tamanho máximo da expressão é dim-2.
+ * @attention
+ * The memory location where the line read will be stored must be previously
+ * allocated.
  *
- * @return tamanho da frase lida (ou -1 caso não seja lida nenhuma frase).
+ * @param str pointer where the text read shall be put
+ * @param dim maximum size for the line to be read (the line shall not exceed
+ * the size <em>dim-2</em>)
+ *
+ * @return
+ * -1 if the line exceeded the maximum size allowed\n
+ * the size of the line read otherwise
  */
 int rngets(char* str,int dim);
 
 /**
- * Gera um número aleatório entre dois valores.
+ * Generates a random number in a given interval.
  *
- * @attention o valor de min deve ser menor do que max.
+ * @attention
+ * The value of <tt>max</tt> must be greater than <tt>min</tt>, otherwise
+ * the function will return 0.
  *
- * @param min valor mínimo que pode ser gerado.
- * @param max valor máximo que pode ser gerado.
+ * @param min minimum allowed value
+ * @param max maximum allowed value
  *
- * @return valor gerado.
+ * @return
+ * 0 if <em>max<min</em>\n
+ * a random number in the given interval otherwise
  */
 int getRandom(int min,int max);
 
 /**
- * Ordena um array.
- * Utiliza o algoritmo @b Mergesort.\n
- * Ordena os elementos do array no intervalo [@a begin,@a end], usando como
- *   função de comparação @a comp.\n
- * A função @a comp tem que ser do tipo: <tt>int comp(void*,void*)</tt>.
+ * Orders an array into ascending order, based on a given comparison function.
  *
- * @param vals  array de apontadores para os elementos a ordenar.
- * @param begin posição onde começamos a ordenação.
- * @param end   posição onde termina a ordenação.
- * @param comp  função de comparação.
+ * Uses the algorithm <em>merge sort</em>.
  *
- * @return número de erros detectados.
+ * @param vals  array of pointer to the elements to sort
+ * @param begin starting position
+ * @param end   ending position
+ * @param comp  comparison function
+ *
+ * @return
+ * number of errors detected
  */
 int mergeSort(void* vals[],int begin,int end,int(*comp)(void*,void*));
 
