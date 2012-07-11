@@ -1,7 +1,7 @@
 /**
  * Implementation of an AVL tree (self-balancing binary search tree).
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file treemap.c
  * @version 3.0
  * @date 07/2012

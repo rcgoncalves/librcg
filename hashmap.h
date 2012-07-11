@@ -48,7 +48,7 @@ int keyEquals(void* key1,void* key2)
  * </li>
  * </ul>
  * 
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file hashmap.h
  * @version 3.0
  * @date 10/2011

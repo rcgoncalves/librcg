@@ -1,7 +1,7 @@
 /**
  * Implementação de uma lista (duplamente) ligada.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file list.c
  * @version 3.0
  * @date 05/2012

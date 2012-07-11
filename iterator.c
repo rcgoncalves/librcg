@@ -1,7 +1,7 @@
 /**
  * Implementation of an iterator.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file iterator.c
  * @version 3.0
  * @date 11/2011

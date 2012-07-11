@@ -3,7 +3,7 @@
  *
  * Provides functions to create and manipulate a queue.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file queue.h
  * @version 3.0
  * @date 05/2012

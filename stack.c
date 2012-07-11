@@ -1,7 +1,7 @@
 /**
  * Implementation of a stack as a linked list.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file stack.c
  * @version 3.0
  * @date 05/2012

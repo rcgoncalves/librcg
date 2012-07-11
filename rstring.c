@@ -1,7 +1,7 @@
 /**
  * Implementation of functions to manipulate strings.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file rstring.c
  * @version 3.0
  * @date 05/2012

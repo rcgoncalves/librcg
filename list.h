@@ -3,7 +3,7 @@
  *
  * Provides functions to create and manipulate a linked list.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file list.h
  * @version 3.0
  * @date 05/2012

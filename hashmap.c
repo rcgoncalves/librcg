@@ -1,7 +1,7 @@
 /**
  * Implementation of a hash table.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file hashmap.c
  * @version 3.0
  * @date 10/2011

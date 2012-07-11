@@ -3,7 +3,7 @@
  *
  * Iterators contain a sequence of pointers to the elements to be iterated.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file iterator.h
  * @version 3.0
  * @date 12/2011

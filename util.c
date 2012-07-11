@@ -1,7 +1,7 @@
 /**
  * Implementation of some utility functions.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file util.c
  * @version 3.0
  * @date 07/2012

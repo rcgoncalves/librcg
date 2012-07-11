@@ -4,7 +4,7 @@
  * Provides functions to read text from de <em>stdin</em>, to generate random
  * numbers, and to sort arrays.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file util.h
  * @version 3.0
  * @date 07/2012

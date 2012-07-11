@@ -22,7 +22,7 @@ int keyComp(void* key1,void* key2)
 }
 \endcode
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file treemap.h
  * @version 3.0
  * @date 07/2012

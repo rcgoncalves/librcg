@@ -7,7 +7,7 @@
  * The array can resize itself whenever needed, while preserving the previous
  * values.
  *
- * @author Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>
+ * @author Rui Carlos Gonçalves
  * @file array.h
  * @version 3.0
  * @date 10/2011
