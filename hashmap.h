@@ -50,8 +50,8 @@ int keyEquals(void* key1,void* key2)
  * 
  * @author Rui Carlos Gonçalves
  * @file hashmap.h
- * @version 3.0
- * @date 10/2011
+ * @version 3.0.1
+ * @date 01/2014
  */
 #ifndef _HASHMAP_H_
 #define _HASHMAP_H_

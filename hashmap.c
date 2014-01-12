@@ -3,8 +3,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file hashmap.c
- * @version 3.0
- * @date 10/2011
+ * @version 3.0.1
+ * @date 01/2014
  */
 #include <stdlib.h>
 #include "hashmap.h"
@@ -30,19 +30,19 @@ static int reHash(HashMap hmap)
   if(!new) result=1;
   else
   {
-    hmap->length=2*hmap->length;
     for(i=0;i<hmap->length;i++)
     {
       for(this=hmap->elems[i];this;this=next)
       {
         next=this->next;
-        index=(hmap->hash)(this->key)%(hmap->length);
+        index=(hmap->hash)(this->key)%(2*hmap->length);
         this->next=new[index];
         new[index]=this;
       }
     }
     free(hmap->elems);
     hmap->elems=new;
+    hmap->length=2*hmap->length;
   }
   return result;
 }
@@ -128,7 +128,7 @@ void hashDelete(HashMap hmap)
 
 int hashInsert(HashMap hmap,void* key,void* value,int replace)
 {
-  int h,stop,error,result=0;
+  int h,stop,error=0,result=0;
   HashNode aux;
   if(hmap->size>hmap->factor*hmap->length) error=reHash(hmap);
   if(!error)
