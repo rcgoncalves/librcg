@@ -5,8 +5,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file queue.h
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #ifndef _QUEUE_H_
 #define _QUEUE_H_
@@ -57,7 +57,7 @@ typedef SQueue* Queue;
  * <tt>NULL</tt> if an error occurred\n
  * the new queue otherwise
  */
-Queue newQueue();
+Queue newQueue(void);
 
 /**
  * Deletes a queue.
@@ -149,7 +149,7 @@ int queueMap(Queue queue,void(*fun)(void*));
  *
  * @see Iterator
  *
- * @param queu the queue
+ * @param queue the queue
  *
  * @return
  * <tt>NULL</tt> if an error occurred\n

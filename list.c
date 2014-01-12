@@ -3,14 +3,14 @@
  *
  * @author Rui Carlos Gonçalves
  * @file list.c
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #include <stdlib.h>
 #include "list.h"
 
 
-List newList()
+List newList(void)
 {
   List list=malloc(sizeof(SList));
   if(list)

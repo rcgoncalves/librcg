@@ -3,14 +3,14 @@
  *
  * @author Rui Carlos Gonçalves
  * @file stack.c
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #include <stdlib.h>
 #include "stack.h"
 
 
-Stack newStack()
+Stack newStack(void)
 {
   Stack stack=malloc(sizeof(SStack));
   if(stack)

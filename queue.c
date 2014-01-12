@@ -3,13 +3,13 @@
  * 
  * @author Rui Carlos Gonçalves
  * @file queue.c
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #include <stdlib.h>
 #include "queue.h"
 
-Queue newQueue()
+Queue newQueue(void)
 {
   Queue queue=malloc(sizeof(SQueue));
   if(queue)

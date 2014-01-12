@@ -5,8 +5,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file list.h
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #ifndef _LIST_H_
 #define _LIST_H_
@@ -58,7 +58,7 @@ typedef SList* List;
  * <tt>NULL</tt> if an error occurred\n
  * the new list otherwise
  */
-List newList();
+List newList(void);
 
 /**
  * Deletes a list.

@@ -5,8 +5,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file stack.h
- * @version 3.0
- * @date 05/2012
+ * @version 3.0.1
+ * @date 01/2014
  */
 #ifndef _STACK_H_
 #define _STACK_H_
@@ -54,7 +54,7 @@ typedef SStack* Stack;
  * <tt>NULL</tt> if an error occurred\n
  * the new stack otherwise
  */
-Stack newStack();
+Stack newStack(void);
 
 /**
  * Deletes a stack.
