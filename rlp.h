@@ -52,7 +52,7 @@ int simplex(double* a,int n,int m,FILE* file);
  * Applies the <em>Simplex algorithm</em> to a primal optimization problem.
  *
  * The input matrix (<tt>a</tt>) must follow the format defined in function
- * <tt><ref>simplex</ref></tt>.
+ * <tt>\ref simplex</tt>.
  *
  * Allows to specify the file where the table resulting from the application of
  * the algorithm (using the parameter <em>file</em>).
@@ -74,7 +74,7 @@ int simplexp(double* a,int n,int m,int pos,FILE* file);
  * Applies the <em>Simplex algorithm</em> to a dual optimization problem.
  *
  * The input matrix (<tt>a</tt>) must follow the format defined in function
- * <tt><ref>simplex</ref></tt>.
+ * <tt>\ref simplex</tt>.
  *
  * Allows to specify the file where the table resulting from the application of
  * the algorithm (using the parameter <em>file</em>).

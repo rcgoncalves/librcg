@@ -118,10 +118,9 @@ static double minimumr(double* matrix,int ncols,int row,int* col)
 int simplex(double* a,int n,int m,FILE* file)
 {
   double aux;
-  int pos,nm2,err;
+  int pos=0,nm2,err=0;
   nm2=n+m+2;
   aux=minimumc(&a[nm2],m,nm2,n+m,&pos);
-  err=0;
   if(file) fmprint(a,m+1,nm2,file);
   if(aux<0) err=simplexd(a,n,m,pos+1,file);
   if(!err)
