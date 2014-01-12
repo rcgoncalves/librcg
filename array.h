@@ -127,7 +127,7 @@ int arrayRemove(Array array,int index,void** elem);
  * 0 if there was an element at the specified position\n
  * 1 otherwise
  */
-int arrayAt(Array array,int index,void** inf);
+int arrayAt(Array array,int index,void** elem);
 
 /**
  * Increases the capacity of an array.

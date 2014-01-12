@@ -220,8 +220,8 @@ int treeSize(TreeMap tree);
  *
  * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
  *
- * @param array the array
- * @param fun   the function to be applied
+ * @param tree the tree
+ * @param fun  the function to be applied
  *
  * @return
  * 0 if the array was not empty\n
@@ -234,8 +234,8 @@ int treeInOrder(TreeMap tree,void(*fun)(void*,void*));
  *
  * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
  *
- * @param array the array
- * @param fun   the function to be applied
+ * @param tree the tree
+ * @param fun  the function to be applied
  *
  * @return
  * 0 if the array was not empty\n
@@ -248,8 +248,8 @@ int treePreOrder(TreeMap tree,void(*fun)(void*,void*));
  *
  * The function to be applied must be of type <tt>void fun(void*,void*)</tt>.
  *
- * @param array the array
- * @param fun   the function to be applied
+ * @param tree the tree
+ * @param fun  the function to be applied
  *
  * @return
  * 0 if the array was not empty\n
@@ -275,7 +275,7 @@ Iterator treeKeys(TreeMap tree);
  *
  * @see Iterator
  *
- * @param the tree
+ * @param tree the tree
  *
  * @return
  * <tt>NULL</tt> if an error occurred\n
