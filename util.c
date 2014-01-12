@@ -3,8 +3,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file util.c
- * @version 3.0
- * @date 07/2012
+ * @version 3.1
+ * @date 01/2014
  */
 #include <stdio.h>
 #include <string.h>
@@ -17,11 +17,6 @@
  * <tt>rgetsEOF</tt>.
  */
 #define BUFSIZE 32
-
-/**
- * Seed for <tt>@ref getRandom</tt> function.
- */
-long seed=0;
 
 int rgets(char** str)
 {
@@ -106,9 +101,10 @@ int rgetsEOF(char** str)
 int rngets(char *str,int dim)
 {
   int length;
+  char *ret;
   str[dim-1]=str[dim-2]=1;
-  fgets(str,dim,stdin);
-  if(str[dim-1]=='\0'&&str[dim-2]!='\n') 
+  ret=fgets(str,dim,stdin);
+  if(ret==NULL||(str[dim-1]=='\0'&&str[dim-2]!='\n')) 
   {
     while(getchar()!='\n');
     length=-1;
@@ -125,6 +121,7 @@ int rngets(char *str,int dim)
 
 int getRandom(int min,int max)
 {
+  static time_t seed = 0;
   int result;
   if(max<min) result=0;
   else

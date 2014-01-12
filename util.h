@@ -6,8 +6,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file util.h
- * @version 3.0
- * @date 07/2012
+ * @version 3.1
+ * @date 01/2014
  */
 #ifndef _UTIL_H_
 #define _UTIL_H_
