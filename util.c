@@ -21,7 +21,7 @@
 int rgets(char** str)
 {
   char* str1,* str2;
-  char tmp;
+  int tmp;
   int length,count,result=0;
   if(!str) result=-2;
   else
@@ -61,7 +61,7 @@ int rgets(char** str)
 int rgetsEOF(char** str)
 {
   char* str1,* str2;
-  char tmp;
+  int tmp;
   int length,count,result=0;
   if(!str) result=-2;
   else
@@ -162,7 +162,10 @@ int merge(void* vals[],int begin,int middle,int end,
   if(!copy) result=1;
   else
   {
-    for(i=0,k=begin;i<size;i++,k++) copy[i]=vals[k];
+    for(i=0,k=begin;i<size;i++,k++)
+    {
+      copy[i]=vals[k];
+    }
     for(i=0,j=sizel,k=begin;k<=end;k++)
     {
       if(j>=size||(i<sizel&&((*comp)(copy[i],copy[j])<0)))
