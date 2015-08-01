@@ -3,8 +3,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file iterator.c
- * @version 3.0
- * @date 11/2011
+ * @version 3.0.1
+ * @date 08/2015
  */
 #include <stdlib.h>
 #include "iterator.h"
@@ -124,7 +124,7 @@ int itAt(Iterator it,int n,void** val)
 int itSetPos(Iterator it,int n)
 {
   int result=-1;
-  if(!n<0&&!n>it->size)
+  if(!(n<0)&&!(n>it->size))
   {
     result=it->pos;
     it->pos=n;

@@ -5,8 +5,8 @@
  *
  * @author Rui Carlos Gonçalves
  * @file iterator.h
- * @version 3.0
- * @date 12/2011
+ * @version 3.0.1
+ * @date 08/2015
  */
 #ifndef _ITERATOR_H_
 #define _ITERATOR_H_
