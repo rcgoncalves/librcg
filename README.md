@@ -1,4 +1,4 @@
-# LibRCG 3.1
+# LibRCG 3.1.1
 
 ## About
 LibRCG is a C library, developed by [Rui Carlos Gonçalves](http://rcgoncalves.pt/) (rcgoncalves.pt@gmail.com).
@@ -21,7 +21,7 @@ The library's documentation is also available online [here](http://librcg.rcgonc
 ## License
 LibRCG, a C library
 
-Copyright (C) 2004-2014 Rui Carlos Gonçalves
+Copyright (C) 2004-2015 Rui Carlos Gonçalves
 
 This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.
 
