@@ -1,7 +1,7 @@
-# LibRCG 3.1.1
+# LibRCG
 
 ## About
-LibRCG is a C library, developed by [Rui Carlos Gonçalves](https://rcgoncalves.pt/) (rcgoncalves.pt@gmail.com).
+**LibRCG** is a C library, which offers common utilities.
 Among others, this library provides:
 * Functions to read data from the standard input, to sort data, etc;
 * Functions to manipulate strings;
@@ -9,6 +9,13 @@ Among others, this library provides:
 * Data structures such as list, and functions to manage them;
 * Finite maps data structures (balanced binary search trees and hash maps);
 * An iterator.
+
+
+## Links
+* [Download](https://github.com/rcgoncalves/librcg/releases/latest)
+* [Change log](https://github.com/rcgoncalves/librcg/blob/master/CHANGELOG.md)
+* [Issues](https://github.com/rcgoncalves/librcg/issues)
+
 
 ## License
 LibRCG, a C library
